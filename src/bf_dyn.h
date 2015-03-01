@@ -3,7 +3,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "types.h"
+#include "log.h"
 
 
 typedef struct node_bf_dyn {

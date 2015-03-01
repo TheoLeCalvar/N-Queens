@@ -9,6 +9,9 @@ void    bf_dyn_init(bf_dyn_t* bf, size_t size) {
         if (!bf->bf) {
                 bf->size = 0;
                 bf->nb_chunk = 0;
+
+                log_err("Can't initialize bf at %s:%d", __FILE__, __LINE__);
+
                 return;
         }
 }
@@ -21,6 +24,9 @@ void    bf_dyn_init_from(bf_dyn_t* bf, size_t size, size_t from) {
         if (!bf->bf) {
                 bf->size = 0;
                 bf->nb_chunk = 0;
+
+                log_err("Can't initialize bf at %s:%d", __FILE__, __LINE__);
+
                 return;
         }
 
@@ -174,7 +180,7 @@ int     bf_dyn_equals(const bf_dyn_t* a, const bf_dyn_t* b) {
 }
 
 int     bf_dyn_contains(const bf_dyn_t* a, const bf_dyn_t* b) {
-        fprintf(stderr, "Not yet implemented\n");
+        log_info("bf_dyn_contains not implemented yet at %s:%d.", __FILE__, __LINE__);
         return 0;
 }
 
@@ -191,7 +197,7 @@ void    bf_dyn_print(const bf_dyn_t* bf, size_t max) {
 }
 
 void    bf_dyn_to_str(const bf_dyn_t* bf, char* buf) {
-        fprintf(stderr, "Not implement yet\n");
+        log_info("bf_dyn_to_str not implemented yet at %s:%d.", __FILE__, __LINE__);
 }
 
 void    bf_dyn_incr(bf_dyn_t* bf) {
