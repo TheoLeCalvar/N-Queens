@@ -1,1 +1,19 @@
 Readme
+
+En binome
+
+Une partie sur recherche locale, une autre sur la programmation par contrainte
+
+A remettre la semaine d'avant les stages
+
+A rendre :
+        - petit rapport (5-6 pages), sur ce qui a été implémenté
+        - code
+        - présentation avec diapos + démo rapide (10 min maximum)
+
+Partie Hao :
+        - n-reines
+        - développer un solveur des n-reines en PPC n*n
+                - algorithmes : BT chronologique, AC avant BT, Forward Checking
+                - heuristique : par défaut, min domain, aléatoire/dichotomique
+                - expérimentations : mesurer le temps de calcul en fonction de la taille, mesurer le nombre de noeud de l'arbre
