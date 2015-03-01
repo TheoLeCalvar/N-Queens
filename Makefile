@@ -34,7 +34,7 @@ TPL=./ctpl.pl
 ## Public
 all: tests program
 
-tests: bf.test bf_dyn.test
+tests: bf.test bf_dyn.test chessboard.test
 
 program: $(TARGET)
 
@@ -53,6 +53,9 @@ bf.test: $(DSRC)/bf.c
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 bf_dyn.test: $(DSRC)/bf_dyn.c
+	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
+
+chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf_dyn.o
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 ## Templates
