@@ -11,7 +11,7 @@ void    cb_init(cb_t* cb, size_t size) {
                 cb->size = 0;
                 bf_dyn_clean(&cb->cols);
                 bf_dyn_clean(&cb->rows);
-                log_err("Can't initialize chessboard at %s:%d\n", __FILE__, __LINE__);
+                log_err("Can't initialize chessboard.");
                 return;
         }
 
@@ -20,7 +20,10 @@ void    cb_init(cb_t* cb, size_t size) {
 }       
 
 int     cb_validates(const cb_t* cb) {
-        if (!cb->size) return -1;
+        if (!cb->size) {
+                log_info("Call cb_validates on unintialized chessboard");
+                return -1;
+        }
 
         for (size_t i = 0; i < cb->size; ++i)
                 if (cb->queens[i] != -1)
