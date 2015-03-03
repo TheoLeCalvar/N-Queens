@@ -38,7 +38,7 @@ tests: bf.test bf_dyn.test chessboard.test
 
 program: $(TARGET)
 
-$(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o $(DOBJ)/chessboard.o
+$(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o $(DOBJ)/chessboard.o $(DOBJ)/local_search.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
@@ -56,6 +56,9 @@ bf_dyn.test: $(DSRC)/bf_dyn.c
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf_dyn.o
+	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
+
+local_search.test: $(DSRC)/local_search.c $(DOBJ)/chessboard.o
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 ## Templates

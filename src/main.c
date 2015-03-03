@@ -5,6 +5,8 @@
 
 #include "chessboard.h"
 
+#include "local_search.h"
+
 typedef int (*algo_f)(cb_t* res);
 
 typedef struct algo {
@@ -14,7 +16,7 @@ typedef struct algo {
 } algo_t;
 
 algo_t algos[] = {
-        {"ls",  "local search",         NULL},
+        {"ls",  "local search",         &local_search},
         {"bt",  "backtrack",            NULL},
         {"bt",  "bruteforce",           NULL}
 };
@@ -61,7 +63,7 @@ int main(int argc, char** argv) {
         size_t  size = 0; 
         cb_t    res;
 
-        while ((opt = getopt_long(argc, argv, "h:a", options, NULL)) >= 0) {
+        while ((opt = getopt_long(argc, argv, "a:h", options, NULL)) >= 0) {
 
                 switch (opt) {
                         case 'h':
@@ -78,7 +80,6 @@ int main(int argc, char** argv) {
                                 break;
 
                         case '?':
-                                printf("wrong option\n\n");
                                 usage();
                                 return 1;
 
