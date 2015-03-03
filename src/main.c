@@ -7,6 +7,7 @@
 
 #include "local_search.h"
 #include "wikimethod.h"
+#include "backtrack.h"
 
 typedef int (*algo_f)(cb_t* res);
 
@@ -18,7 +19,7 @@ typedef struct algo {
 
 algo_t algos[] = {
         {"ls",  "local search",         &local_search},
-        {"bt",  "backtrack",            NULL},
+        {"bt",  "backtrack",            &backtrack},
         {"bt",  "bruteforce",           NULL},
         {"wk",  "smart wiki",           &wiki_method}
 };
@@ -126,6 +127,10 @@ int main(int argc, char** argv) {
         }
 
         cb_print(&res);
+
+        if (cb_validates(&res)) {
+            log_err("The solution isn't valid, this should not happen");
+        }
 
         return 0;
 }
