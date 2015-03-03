@@ -36,8 +36,8 @@ int wiki_method(cb_t * cb)
 			
 			
 		}
-		for (size_t i = 0; i < n; i++)
-		printf("%d ", cb->queens[i]+1);
+		//for (size_t i = 0; i < n; i++)
+		//printf("%d ", cb->queens[i]+1);
 
 	}
 	if ((n % 6) == 3) {
@@ -63,12 +63,12 @@ int wiki_method(cb_t * cb)
 		}
 		cb->queens[n-2] = 0;
 		cb->queens[n-1] = 2;
-		for (size_t i = 0; i < n; i++)
-		printf("%d ", cb->queens[i]+1);
+		//for (size_t i = 0; i < n; i++)
+		//printf("%d ", cb->queens[i]+1);
 	}	
 
 
 
-	cb_print(cb);
+	//cb_print(cb);
 	return cb_validates(cb);
 }
