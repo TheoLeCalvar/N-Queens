@@ -30,9 +30,8 @@ int     cb_validates(const cb_t* cb) {
         }
 
         for (size_t i = 0; i < cb->size; ++i) {
-                if (cb->queens[i] == -1) return 1;
                 for (size_t j = i+1; j < cb->size; ++j)
-                        if (cb->queens[i] != -1 && 
+                        if (cb->queens[j] != -1 && 
                             abs(i - j) == 
                             abs(cb->queens[i] - cb->queens[j])
                         ) 
