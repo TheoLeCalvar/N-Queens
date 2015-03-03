@@ -6,6 +6,7 @@
 #include "chessboard.h"
 
 #include "local_search.h"
+#include "wikimethod.h"
 
 typedef int (*algo_f)(cb_t* res);
 
@@ -18,7 +19,8 @@ typedef struct algo {
 algo_t algos[] = {
         {"ls",  "local search",         &local_search},
         {"bt",  "backtrack",            NULL},
-        {"bt",  "bruteforce",           NULL}
+        {"bt",  "bruteforce",           NULL},
+        {"wk",  "smart wiki",           &wiki_method}
 };
 
 #define ALGO_SIZE       (sizeof(algos) / sizeof(algo_t))
@@ -107,8 +109,8 @@ int main(int argc, char** argv) {
                 printf("just put the queen in the only available slot.\n");
                 return 1;
         }
-        else if (size <= 4) {
-                printf("their is no solutions, size needs to be >= 4.\n");
+        else if (size <= 3) {
+                printf("there is no solutions, size needs to be >= 3.\n");
                 return 1;
         }
 
