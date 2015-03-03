@@ -39,23 +39,27 @@ int     cb_validates(const cb_t* cb) {
 
 int     cb_conflicts(const cb_t* cb, u32* buf) {
         if (!cb->size) {
-                log_err("Call cb_conflicts on non valid cb at %s:%d", __FILE__, __LINE__);
+                log_err("Call cb_conflicts on non valid cb");
                 return -1;
         }
 
         u32     conflict = 0;
 
-        for (size_t i = 0; i < cb->size; ++i)
-                buf[i] = 0;
+        if (buf)
+                for (size_t i = 0; i < cb->size; ++i)
+                        buf[i] = 0;
 
         for (size_t i = 0; i < cb->size; ++i)
                 if (cb->queens[i] != -1)
                         for (size_t j = i+1; j < cb->size; ++j)
                                 if (cb->queens[j] != -1 &&
-                                    abs(i - j) == abs(cb->queens[i] - cb->queens[j])
+                                    (cb->queens[i] == cb->queens[j] ||
+                                    abs(i - j) == abs(cb->queens[i] - cb->queens[j]))
                                 ) {
-                                        ++buf[i];
-                                        ++buf[j];
+                                        if (buf) {
+                                                ++buf[i];
+                                                ++buf[j];
+                                        }
                                         ++conflict;
                                         log_info("Found conflicting queens (%lu,%d), (%lu, %d)",
                                                 i, cb->queens[i], j, cb->queens[j]);
@@ -65,19 +69,67 @@ int     cb_conflicts(const cb_t* cb, u32* buf) {
         return conflict;
 }
 
+size_t  cb_best_row(const cb_t* cb, size_t col) {
+        if (!cb->size) {
+                log_info("Call cb_best_row on unintialized chessboard");
+                return -1;
+        }
+
+        u32     orig = cb->queens[col];
+        size_t  best_conflicts = -1;
+        size_t  best_position = -1;
+
+        for (size_t i = 0; i < cb->size; ++i) {
+                cb->queens[col] = i;
+                size_t conflicts = cb_conflicts(cb, NULL);
+
+                if (conflicts == 0) {
+                        cb->queens[col] = orig;
+                        return i;                       
+                }
+
+                if (conflicts < best_conflicts) {
+                        best_conflicts = conflicts;
+                        best_position = i;
+                }
+
+        }
+
+        cb->queens[col] = orig;
+
+        return best_position;
+}
+
+void    cb_rows(const cb_t* cb, size_t col, u32* buf) {
+        if (!cb->size) {
+                log_info("Call cb_rows on an unintialized chessboard");
+                return;
+        }
+
+        u32 orig = cb->queens[col];
+
+        for (size_t i = 0; i < cb->size; ++i) {
+                cb->queens[col] = i;
+
+                buf[i] = cb_conflicts(cb, NULL); 
+        }
+
+        cb->queens[col] = orig;
+}
+
 void    cb_print(const cb_t* cb) {
         if (!cb->size) printf("Uninitialized chessboard\n");
 
-        printf("  ");
+        printf("  x ");
         for(size_t i = 0; i < cb->size; ++i)
-                printf("%zu ", i);
+                printf("%3zu ", i);
 
         printf("\n");
 
         for (size_t i = 0; i < cb->size; ++i) {
-                printf("%zu ", i);
+                printf("%3zu ", i);
                 for (size_t j = 0; j < cb->size; ++j) {
-                        printf("%c ", (cb->queens[j] == i) ? '#' : '.');
+                        printf("%3c ", (cb->queens[j] == i) ? '#' : '.');
                 }
                 printf("\n");
         }
@@ -124,6 +176,22 @@ int main(int argc, char** argv) {
                         buf[5] == 1 && 
                         buf[6] == 1 &&
                         buf[7] == 0
+                ));
+
+
+        TEST_ASSERT("Check cb_best_row", cb_best_row(&cb, 5) == 1);
+
+        cb_rows(&cb, 5, buf);
+        TEST_ASSERT("Check cb_rows", 
+                (
+                        buf[0] == 3 &&
+                        buf[1] == 1 &&
+                        buf[2] == 2 && 
+                        buf[3] == 2 &&
+                        buf[4] == 2 &&
+                        buf[5] == 1 &&
+                        buf[6] == 3 &&
+                        buf[7] == 2
                 ));
 
         cb_print(&cb);
