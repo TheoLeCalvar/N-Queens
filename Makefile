@@ -13,9 +13,9 @@
 ## Compiler
 CC=clang
 ifdef DEBUG
-CFLAGS=-g -DDEBUG -Wall -std=gnu99
+CFLAGS=-g -DDEBUG -Wall -std=gnu99 -Wno-format
 else
-CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99
+CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99 -Wno-format
 endif
 LDFLAGS=
 
