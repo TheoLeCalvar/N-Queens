@@ -30,9 +30,8 @@ int     cb_validates(const cb_t* cb) {
         }
 
         for (size_t i = 0; i < cb->size; ++i) {
-                if (cb->queens[i] == -1) return 1;
                 for (size_t j = i+1; j < cb->size; ++j)
-                        if (cb->queens[i] != -1 && 
+                        if (cb->queens[j] != -1 && 
                             abs(i - j) == 
                             abs(cb->queens[i] - cb->queens[j])
                         ) 
@@ -67,7 +66,7 @@ int     cb_conflicts(const cb_t* cb, u32* buf) {
                                                 ++buf[j];
                                         }
                                         ++conflict;
-                                        log_info("Found conflicting queens (%lu,%d), (%lu, %d)",
+                                        log_info("Found conflicting queens (%u,%u), (%u, %u)",
                                                 i, cb->queens[i], j, cb->queens[j]);
                                 }
 

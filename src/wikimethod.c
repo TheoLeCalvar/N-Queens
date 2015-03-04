@@ -78,7 +78,6 @@ int wiki_method(cb_t * cb)
 #include "test.h"
 int main(int argc, char** argv) {
 		cb_t 	cb8,cb28,cb32,cb33;
-		u32		buf[8];
 		cb_init(&cb8, 8);
 		
 		TEST_ASSERT("check cb_validate (1)", wiki_method(&cb8) == 0);

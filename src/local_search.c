@@ -20,17 +20,17 @@ int     local_search(cb_t* cb) {
         buf_row = malloc(cb->size * sizeof(u32));
 
         if (!buf_col || !buf_row) {
-                log_err("Can't allocate buffer in %s:%d", __FILE__, __LINE__);
+                log_err("Can't allocate buffer");
                 return 1;
         }
 
         if (cb->size == -1) {
-                log_err("Can't allocate chessboard in %s:%d", __FILE__, __LINE__);
+                log_err("Can't allocate chessboard");
                 return 1;
         }
 
         while (cb_conflicts(cb, buf_col)) {
-
+                
         }
 
         printf("Found a solution in %zu switchs.\n", try);

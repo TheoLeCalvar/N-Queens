@@ -11,7 +11,7 @@
 
 typedef struct chessboard {
         size_t          size;
-        bf_dyn_t        cols; //bitset, available cols
+        bf_dyn_t        cols; //bitset, available cols, 1 empty, 0 full
         bf_dyn_t        rows; // bitset, available rows
         u32 *           queens; //position of the queen
 } cb_t;
@@ -32,5 +32,11 @@ size_t  cb_best_row(const cb_t* cb, size_t col);
 void    cb_rows(const cb_t*, size_t col, u32* buf);
 
 void    cb_print(const cb_t* cb);
+
+//mettre en place évaluation incrémentale (reprendre le résultat précédent du calcul)
+//forcer une reine par ligne/colonne, passer sur 2 tableaux ?
+//un pour les lignes et un pour les colonnes ?
+//rajouter un tableau pour les colonnes,modifier best_row pour faire un swap des deux
+
 
 #endif
