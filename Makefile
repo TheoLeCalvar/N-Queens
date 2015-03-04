@@ -34,11 +34,12 @@ TPL=./ctpl.pl
 ## Public
 all: tests program
 
-tests: bf.test bf_dyn.test chessboard.test
+tests: bf.test bf_dyn.test chessboard.test wikimethod.test
 
 program: $(TARGET)
 
-$(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o $(DOBJ)/chessboard.o $(DOBJ)/local_search.o
+$(TARGET): 	$(DOBJ)/main.o $(DOBJ)/bf_dyn.o $(DOBJ)/chessboard.o \
+			$(DOBJ)/local_search.o $(DOBJ)/wikimethod.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
@@ -60,6 +61,10 @@ chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf_dyn.o
 
 local_search.test: $(DSRC)/local_search.c $(DOBJ)/chessboard.o
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
+
+wikimethod.test: $(DSRC)/wikimethod.c $(DOBJ)/chessboard.o $(DOBJ)/bf_dyn.o
+	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
+
 
 ## Templates
 

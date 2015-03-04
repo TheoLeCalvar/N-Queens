@@ -65,10 +65,29 @@ int wiki_method(cb_t * cb)
 		cb->queens[n-1] = 2;
 		//for (size_t i = 0; i < n; i++)
 		//printf("%d ", cb->queens[i]+1);
+
 	}	
 
 
 
 	//cb_print(cb);
 	return cb_validates(cb);
+
 }
+#ifdef TEST
+#include "test.h"
+int main(int argc, char** argv) {
+		cb_t 	cb8,cb28,cb32,cb33;
+		u32		buf[8];
+		cb_init(&cb8, 8);
+		
+		TEST_ASSERT("check cb_validate (1)", wiki_method(&cb8) == 0);
+		cb_init(&cb28,28);
+		TEST_ASSERT("check cb_validate (2) n mod 6 != 2 && != 3", wiki_method(&cb28) == 0);
+		cb_init(&cb32,32);
+		TEST_ASSERT("check cb_validate (3) n mod 6 = 2", wiki_method(&cb32) == 0);
+		cb_init(&cb33,33);
+		TEST_ASSERT("check cb_validate (4) n mod 6 = 3", wiki_method(&cb33) == 0);
+		return 0;
+} 
+#endif
