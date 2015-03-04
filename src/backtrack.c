@@ -6,7 +6,7 @@ extern int bt_rec(cb_t* cb, size_t col) {
         if (col < cb->size) {
                 size_t queen_place = -1;
 
-                while ((queen_place = bf_get_next_setted(&(cb->rows), queen_place)) != -1) {
+                while ((queen_place = bf_get_next_setted(&(cb->rows), queen_place)) < cb->size) {
                         //we place the queen in the first available slot
                         cb->queens[col] = queen_place;
                         bf_unset(cb->rows.field, queen_place);
