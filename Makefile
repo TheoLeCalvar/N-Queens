@@ -17,7 +17,7 @@ CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99 -Wno-format
 else
 CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99 -Wno-format
 endif
-LDFLAGS=
+LDFLAGS=-framework OpenCL
 
 ## Directories
 DOBJ=obj
@@ -36,7 +36,7 @@ tests: test_dir bf.test bf_dyn.test chessboard.test \
 program: $(TARGET)
 
 $(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o \
-	   $(DOBJ)/bf.o \
+	   $(DOBJ)/bf.o $(DOBJ)/chessboard_cl.o \
 	   $(DOBJ)/chessboard.o $(DOBJ)/local_search.o \
 	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
@@ -58,7 +58,7 @@ bf.test: $(DSRC)/bf.c
 bf_dyn.test: $(DSRC)/bf_dyn.c
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
-chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf.o
+chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf.o $(DOBJ)/chessboard_cl.o
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 local_search.test: $(DSRC)/local_search.c $(DOBJ)/chessboard.o \

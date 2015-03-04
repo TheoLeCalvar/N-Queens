@@ -11,6 +11,8 @@ extern int bt_rec(cb_t* cb, size_t col) {
                         cb->queens[col] = queen_place;
                         bf_unset(cb->rows.field, queen_place);
 
+                        // cb_print(cb);
+
                         //if the temp construction is valid we propagate it
                         //and if we found a solution, propagate the return
                         if (!cb_validates_fast(cb, queen_place, col) && !bt_rec(cb, col + 1))
@@ -32,5 +34,7 @@ extern int bt_rec(cb_t* cb, size_t col) {
 
 
 int backtrack(cb_t* cb) {
+        cl_init();
+
         return bt_rec(cb, 0);
 }

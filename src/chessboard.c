@@ -1,5 +1,6 @@
 #include "chessboard.h"
 
+
 void    cb_init(cb_t* cb, size_t size) {
         cb->size = size;
 
@@ -135,7 +136,7 @@ void    cb_rows(cb_t* cb, size_t col, u32* buf) {
         cb->queens[col] = orig;
 }
 
-void    cb_print(const cb_t* cb) {
+void    cb_display(const cb_t* cb) {
         if (!cb->size) printf("Uninitialized chessboard\n");
 
         printf("  x ");
@@ -154,6 +155,16 @@ void    cb_print(const cb_t* cb) {
 
         printf("Todo: format number to prevent bad display\n");
 
+}
+
+void    cb_print(const cb_t* cb) {
+        if (!cb->size) printf("unintialized chessboard\n");
+
+
+        for (size_t i = 0; i < cb->size - 1; ++i)
+                printf("%d, ", cb->queens[i]);
+
+        printf("%d\n", cb->queens[cb->size - 1]);
 }
 
 

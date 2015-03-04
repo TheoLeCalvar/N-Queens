@@ -4,12 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <OpenCL/opencl.h>
+
 #include "log.h"
 
 #include "types.h"
 #include "bf.h"
 
-#define MAX_QUEENS    4096
+#define MAX_QUEENS    512
 
 typedef struct chessboard {
         size_t          size;
@@ -20,10 +22,16 @@ typedef struct chessboard {
 
 void    cb_init(cb_t* cb, size_t size);
 
+int    cl_init();
+
 //returns 0 if the chessboard is valid, < 0 if uninitialized, > 0 if invalid
 int     cb_validates(const cb_t* cb);
 
 int     cb_validates_fast(const cb_t* cb, size_t row, size_t col);
+
+
+int     cb_validates_cl(const cb_t* cb, size_t row, size_t col);
+
 
 //fill buff with the number of conflict per queen, buf must be long enought
 //if buff is NULL, it only return the number of conflicting queens
@@ -37,6 +45,8 @@ size_t  cb_best_row(cb_t* cb, size_t col);
 void    cb_rows(cb_t*, size_t col, u32* buf);
 
 void    cb_print(const cb_t* cb);
+
+void    cb_display(const cb_t* cb);
 
 //mettre en place évaluation incrémentale (reprendre le résultat précédent du calcul)
 //forcer une reine par ligne/colonne, passer sur 2 tableaux ?

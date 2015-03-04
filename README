@@ -17,3 +17,16 @@ Partie Hao :
                 - algorithmes : BT chronologique, AC avant BT, Forward Checking
                 - heuristique : par défaut, min domain, aléatoire/dichotomique
                 - expérimentations : mesurer le temps de calcul en fonction de la taille, mesurer le nombre de noeud de l'arbre
+
+http://queens.cspea.co.uk/csp-q-allplaced.html
+
+30: 12.04user 0.06system 0:12.14elapsed 99%CPU (0avgtext+0avgdata 15024128maxresident)k
+31: 2.93user 0.02system 0:02.96elapsed 99%CPU (0avgtext+0avgdata 15106048maxresident)k
+32: 20.29user 0.10system 0:20.44elapsed 99%CPU (0avgtext+0avgdata 14991360maxresident)k
+33: 34.86user 0.18system 0:35.13elapsed 99%CPU (0avgtext+0avgdata 14958592maxresident)k
+34: 592.95user 2.88system 9:56.68elapsed 99%CPU (0avgtext+0avgdata 15056896maxresident)k
+35: 60.75user 0.28system 1:01.20elapsed 99%CPU (0avgtext+0avgdata 15040512maxresident)k
+36: ±1h40
+37: 297.72user 1.39system 4:59.80elapsed 99%CPU (0avgtext+0avgdata 14876672maxresident)k
+38: ±1h20
+39: ±50min
