@@ -11,10 +11,9 @@ extern int bt_rec(cb_t* cb, size_t col) {
                         cb->queens[col] = queen_place;
                         bf_dyn_unset(cb->rows.bf, queen_place);
 
-
                         //if the temp construction is valid we propagate it
                         //and if we found a solution, propagate the return
-                        if (!cb_validates(cb) && !bt_rec(cb, col + 1))
+                        if (!cb_validates_fast(cb, queen_place, col) && !bt_rec(cb, col + 1))
                                 return 0;
 
                         //else we have to undo what we have done and try the next place

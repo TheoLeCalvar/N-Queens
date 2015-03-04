@@ -21,10 +21,13 @@ void    cb_init(cb_t* cb, size_t size);
 //returns 0 if the chessboard is valid, < 0 if uninitialized, > 0 if invalid
 int     cb_validates(const cb_t* cb);
 
+int     cb_validates_fast(const cb_t* cb, size_t row, size_t col);
+
 //fill buff with the number of conflict per queen, buf must be long enought
 //if buff is NULL, it only return the number of conflicting queens
 //returns the number of conflicting queens, -1 if cb is invalid 
 int     cb_conflicts(const cb_t* cb, u32* buf);
+
 
 size_t  cb_best_row(const cb_t* cb, size_t col);
 

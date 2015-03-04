@@ -42,6 +42,24 @@ int     cb_validates(const cb_t* cb) {
         return 0;
 }
 
+int     cb_validates_fast(const cb_t* cb, size_t row, size_t col) {
+        if (!cb->size) {
+                log_info("Call cv_validates_fast on unintialized chessboard");
+                return -1;
+        }
+
+        u32     queen;
+
+        for (size_t i = 0; (i < cb->size) && ((queen = cb->queens[i]) != -1); ++i) {
+                if (    i != col &&
+                        abs(i - col) == abs(queen - row)
+                   )
+                        return 1;
+        }
+
+        return 0;
+}
+
 int     cb_conflicts(const cb_t* cb, u32* buf) {
         if (!cb->size) {
                 log_err("Call cb_conflicts on non valid cb");
