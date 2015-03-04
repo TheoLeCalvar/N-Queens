@@ -16,6 +16,41 @@ void    cb_init(cb_t* cb, size_t size) {
         for (size_t i = 0; i < cb->size; ++i)      
                 cb->queens[i] = -1;
 
+}
+void    cb_init_rand(cb_t* cb, size_t size) {
+        cb->size = size;
+        bf_init(&cb->cols, 1);
+        bf_init(&cb->rows, 1);
+
+
+        if (0) {
+                cb->size = 0;
+                log_err("Can't initialize chessboard.");
+                return;
+        }
+
+        for (size_t i = 0; i < cb->size; ++i)      
+                cb->queens[i] = -1;
+
+        srand(time(NULL));
+        size_t indice = 0;
+        while (indice < cb->size) {
+
+            size_t alea = rand()%(size);
+            bool ok = true;
+            for (int j = 0; j < cb->size; ++j) {
+                
+                if (cb->queens[j] == alea ) {
+                    ok = false;
+                }
+                
+            }
+            if (ok) {
+                cb->queens[indice] = alea;
+                ++indice;
+            }
+
+        }
 }       
 
 int     cb_validates(const cb_t* cb) {
@@ -52,6 +87,47 @@ int     cb_validates_fast(const cb_t* cb, size_t row, size_t col) {
                         return 1;
         }
 
+        return 0;
+}
+// more low than fast and validate 
+int     cb_validates_fast2(const cb_t* cb, size_t ligne, size_t col) {
+        if (!cb->size) {
+                log_info("Call cv_validates_fast on unintialized chessboard");
+                return -1;
+        }
+        u32     queen;
+        size_t l = ligne;
+        size_t l2 = ligne;
+        size_t l3 = ligne;
+        size_t l4 = ligne;
+        for (size_t i = col+1; (i < cb->size ) && ((queen = cb->queens[i]) != -1); ++i) {
+            if ( l  < cb->size-1) {
+                l++; 
+                if (abs(i - col) == abs(queen - l))
+                return 1;
+            }
+            
+            if ( l2 > 0) {
+                l2--;
+                if (abs(i - col) == abs(queen - l2))
+                return 1;
+            }
+            
+        }
+        for (size_t i = col-1; (i > 0) && ((queen = cb->queens[i]) != -1); ++i) {
+             if ( l3 < cb->size-1) {
+                ++l3; 
+                if (abs(i - col) == abs(queen - l3))
+                return 1;
+
+            }
+            if ( l4  > 0) {
+                l4--;
+                if (abs(i - col) == abs(queen - l4))
+                return 1;
+            }
+            
+        }
         return 0;
 }
 
@@ -154,6 +230,11 @@ void    cb_print(const cb_t* cb) {
 
         printf("Todo: format number to prevent bad display\n");
 
+}
+void    cb_swap(cb_t* cb, size_t q1, size_t q2) {
+        size_t tmp = cb->queens[q1];
+        cb->queens[q1] = cb->queens[q2];
+        cb->queens[q2] = tmp;
 }
 
 

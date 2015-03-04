@@ -4,5 +4,5 @@
 #include "chessboard.h"
 
 int     local_search(cb_t* cb);
-
+//void	init_matrice(const cb_t* cb, size_t** m); 
 #endif
