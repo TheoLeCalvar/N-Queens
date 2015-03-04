@@ -3,14 +3,12 @@
 void    cb_init(cb_t* cb, size_t size) {
         cb->size = size;
 
-        bf_dyn_init(&cb->cols, size);
-        bf_dyn_init(&cb->rows, size);
-        cb->queens = malloc(size * sizeof(u32));
+        bf_init(&cb->cols, 1);
+        bf_init(&cb->rows, 1);
 
-        if (!cb->cols.size || !cb->rows.size || !cb->queens) {
+
+        if (0) {
                 cb->size = 0;
-                bf_dyn_clean(&cb->cols);
-                bf_dyn_clean(&cb->rows);
                 log_err("Can't initialize chessboard.");
                 return;
         }
@@ -18,9 +16,6 @@ void    cb_init(cb_t* cb, size_t size) {
         for (size_t i = 0; i < cb->size; ++i)      
                 cb->queens[i] = -1;
 
-        //bf are initialized at 1
-        bf_dyn_not(&cb->rows);
-        bf_dyn_not(&cb->cols);
 }       
 
 int     cb_validates(const cb_t* cb) {
@@ -92,7 +87,7 @@ int     cb_conflicts(const cb_t* cb, u32* buf) {
         return conflict;
 }
 
-size_t  cb_best_row(const cb_t* cb, size_t col) {
+size_t  cb_best_row(cb_t* cb, size_t col) {
         if (!cb->size) {
                 log_info("Call cb_best_row on unintialized chessboard");
                 return -1;
@@ -123,7 +118,7 @@ size_t  cb_best_row(const cb_t* cb, size_t col) {
         return best_position;
 }
 
-void    cb_rows(const cb_t* cb, size_t col, u32* buf) {
+void    cb_rows(cb_t* cb, size_t col, u32* buf) {
         if (!cb->size) {
                 log_info("Call cb_rows on an unintialized chessboard");
                 return;

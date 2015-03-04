@@ -6,10 +6,10 @@ extern int bt_rec(cb_t* cb, size_t col) {
         if (col < cb->size) {
                 size_t queen_place = -1;
 
-                while ((queen_place = bf_dyn_get_next_bit(&(cb->rows), queen_place)) != -1) {
+                while ((queen_place = bf_get_next_setted(&(cb->rows), queen_place)) != -1) {
                         //we place the queen in the first available slot
                         cb->queens[col] = queen_place;
-                        bf_dyn_unset(cb->rows.bf, queen_place);
+                        bf_unset(cb->rows.field, queen_place);
 
                         //if the temp construction is valid we propagate it
                         //and if we found a solution, propagate the return
@@ -17,7 +17,7 @@ extern int bt_rec(cb_t* cb, size_t col) {
                                 return 0;
 
                         //else we have to undo what we have done and try the next place
-                        bf_dyn_set(cb->rows.bf, queen_place);
+                        bf_set(cb->rows.field, queen_place);
                         cb->queens[col] = -1;
 
                 }
