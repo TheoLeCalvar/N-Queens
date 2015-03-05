@@ -14,7 +14,7 @@ A rendre :
 Partie Hao :
         - n-reines
         - développer un solveur des n-reines en PPC n*n
-                - algorithmes : BT chronologique, AC avant BT, Forward Checking
+                - algorithmes : BT chronologique, AC avant BT, Forward Checking, MAC
                 - heuristique : par défaut, min domain, aléatoire/dichotomique
                 - expérimentations : mesurer le temps de calcul en fonction de la taille, mesurer le nombre de noeud de l'arbre
 

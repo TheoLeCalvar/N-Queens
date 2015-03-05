@@ -8,6 +8,7 @@
 #include "local_search.h"
 #include "wikimethod.h"
 #include "backtrack.h"
+#include "forward_checking.h"
 
 typedef int (*algo_f)(cb_t* res);
 
@@ -20,7 +21,8 @@ typedef struct algo {
 algo_t algos[] = {
         {"ls",  "local search",         &local_search},
         {"bt",  "backtrack",            &backtrack},
-        {"bt",  "bruteforce",           NULL},
+        {"fw",  "forward checking",     &forward},
+        {"bf",  "bruteforce",           NULL},
         {"wk",  "smart wiki",           &wiki_method}
 };
 

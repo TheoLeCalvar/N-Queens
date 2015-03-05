@@ -38,7 +38,8 @@ program: $(TARGET)
 $(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o \
 	   $(DOBJ)/bf.o $(DOBJ)/chessboard_cl.o \
 	   $(DOBJ)/chessboard.o $(DOBJ)/local_search.o \
-	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o
+	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o \
+	   $(DOBJ)/forward_checking.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
