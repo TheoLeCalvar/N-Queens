@@ -1,6 +1,7 @@
 #include "backtrack.h"
 
-
+//amélioration possible, pour la ligne, réduire les valeurs possible en supprimant les
+//valeur dans les diagonales des reines précédentes
 extern int bt_rec(cb_t* cb, size_t col) {
         //weare not at the end, now we have to select where to place the colth queens
         if (col < cb->size) {

@@ -6,5 +6,4 @@
 
 int backtrack(cb_t* cb);
 
-
 #endif
