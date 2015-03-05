@@ -5,9 +5,24 @@
 extern int bt_rec(cb_t* cb, size_t col) {
         //weare not at the end, now we have to select where to place the colth queens
         if (col < cb->size) {
-                size_t queen_place = -1;
+                bf_t    available;
+                size_t  queen_place = -1;
 
-                while ((queen_place = bf_get_next_setted(&(cb->rows), queen_place)) < cb->size) {
+                //at start all rows are availables
+                bf_init(&available, 1);
+
+                //we remove cells in diagonales of the previous queens
+                //< MAX_QUEENS in both cases because we are using unsigned
+                for (size_t i = 0; i < col; ++i) {
+                        if (cb->queens[i] + (col - i) < MAX_QUEENS) bf_unset(available.field, cb->queens[i] + (col - i));
+                        if (cb->queens[i] - (col - i) < MAX_QUEENS) bf_unset(available.field, cb->queens[i] - (col - i));
+                }
+
+                //merge the availables rows from the diagonals and the chessboards rows
+                bf_and(&cb->rows, &available);
+
+
+                while ((queen_place = bf_get_next_setted(&available, queen_place)) < cb->size) {
                         //we place the queen in the first available slot
                         cb->queens[col] = queen_place;
                         bf_unset(cb->rows.field, queen_place);
@@ -16,7 +31,7 @@ extern int bt_rec(cb_t* cb, size_t col) {
 
                         //if the temp construction is valid we propagate it
                         //and if we found a solution, propagate the return
-                        if (!cb_validates_fast(cb, queen_place, col) && !bt_rec(cb, col + 1))
+                        if (!bt_rec(cb, col + 1))
                                 return 0;
 
                         //else we have to undo what we have done and try the next place
@@ -35,7 +50,7 @@ extern int bt_rec(cb_t* cb, size_t col) {
 
 
 int backtrack(cb_t* cb) {
-        cl_init();
+        // cl_init();
 
         return bt_rec(cb, 0);
 }
