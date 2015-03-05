@@ -3,3 +3,4 @@ n-dames
 *.sublime-*
 test/
 obj/
+res/
