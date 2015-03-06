@@ -32,9 +32,15 @@ int     local_search(cb_t* cb) {
         cb_init_rand(cb,cb->size);
         srand(time(NULL));
         u32 *   buf;
+        size_t tmp = 0;
         buf = malloc(cb->size * sizeof(u32));
         while (cb_conflicts(cb,buf) > 0 ) {
                         int c = cb_conflicts(cb,buf);
+                        /*for (int i = 0; i < cb->size; i++) {
+
+                                if (tmp < buf[i])
+                                        tmp = buf[i];
+                        }*/
                         size_t r1 = rand()%(cb->size);
                         size_t r2 = rand()%(cb->size);
                         cb_swap(cb,r1,r2);
