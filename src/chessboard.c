@@ -46,7 +46,7 @@ int     cb_validates_full(const cb_t* cb) {
                 if (cb->queens[i] >= cb->size) return 1;
                 for (size_t j = i + 1; j < cb->size; ++j)
                         if (cb->queens[i] == cb->queens[j] ||
-                            abs(cb->queens[i] - cb->queens[j] == abs(i - j)))
+                            abs(cb->queens[i] - cb->queens[j]) == abs(i - j))
                                 return 1;
         }
 
