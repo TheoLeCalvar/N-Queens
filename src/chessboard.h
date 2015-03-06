@@ -11,7 +11,7 @@
 #include "types.h"
 #include "bf.h"
 
-#define MAX_QUEENS    256
+#define MAX_QUEENS    2048
 
 typedef struct chessboard {
         size_t          size;
