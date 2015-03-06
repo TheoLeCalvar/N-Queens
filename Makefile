@@ -13,11 +13,11 @@
 ## Compiler
 CC=clang
 ifdef DEBUG
-CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99 -Wno-format
+CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99 -Wno-format 
 else
 CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99 -Wno-format
 endif
-LDFLAGS=-framework OpenCL
+LDFLAGS=
 
 ## Directories
 DOBJ=obj
@@ -28,15 +28,14 @@ TARGET=n-dames
 
 #Targets
 ## Public
-all: tests program
+all: program
 
-tests: test_dir bf.test bf_dyn.test chessboard.test \
+tests: test_dir bf.test chessboard.test \
 		local_search.test wikimethod.test
 
 program: $(TARGET)
 
-$(TARGET): $(DOBJ)/main.o $(DOBJ)/bf_dyn.o \
-	   $(DOBJ)/bf.o $(DOBJ)/chessboard_cl.o \
+$(TARGET): $(DOBJ)/main.o $(DOBJ)/bf.o \
 	   $(DOBJ)/chessboard.o $(DOBJ)/local_search.o \
 	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o \
 	   $(DOBJ)/forward_checking.o
@@ -56,10 +55,7 @@ test_dir:
 bf.test: $(DSRC)/bf.c
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
-bf_dyn.test: $(DSRC)/bf_dyn.c
-	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
-
-chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf.o $(DOBJ)/chessboard_cl.o
+chessboard.test: $(DSRC)/chessboard.c $(DOBJ)/bf.o
 	$(CC) $(CFLAGS) -DTEST $^ -o $(DTEST)/$@ $(LDFLAGS)
 
 local_search.test: $(DSRC)/local_search.c $(DOBJ)/chessboard.o \
