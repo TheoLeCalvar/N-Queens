@@ -18,6 +18,9 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                 //      delta[queens] = {i, j, k, l}
                 //      row, diag +, diag -, count
 
+                if (cb->queens[col] != -1)
+                        return 1;
+
                 //now we get our first available queen in the remaining domain
                 while ((queen_place = bf_get_next_setted(&domains[col], queen_place)) < cb->size) {
                         //we place the queen in the first available slot
@@ -41,27 +44,27 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                                         bf_unset(domains[delta_size].field, queen_place);
                                 }
 
-                                if (queen_place + (col - delta_size) < MAX_QUEENS &&
+                                if (queen_place + (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place + (col - delta_size))
                                     ) {
                                         delta[4 * delta_size + 1] = 1;
                                         bf_unset(domains[delta_size].field, queen_place +  (col - delta_size));
                                 }
 
-                                if (queen_place - (col - delta_size) < MAX_QUEENS &&
+                                if (queen_place - (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place - (col - delta_size))
                                     ) {
                                         delta[4 * delta_size + 2] = 1;
                                         bf_unset(domains[delta_size].field, queen_place - (col - delta_size));
                                 }
 
-                                if (bf_get_next_setted(&domains[delta_size], -1) > cb->size)
+                                if (bf_get_next_setted(&domains[delta_size], -1) >= cb->size)
                                         goto restore;
 
                                 delta[4 * delta_size + 3] = bf_count(&domains[delta_size]);
 
                                 //y'a un bug dans delta[min_dom], mais c'est plus rapide et toujours valide ...
-                                if (min_dom == -1 || delta[4 * delta_size + 3] < delta[min_dom])
+                                if (min_dom == -1 || delta[4 * delta_size + 3] < delta[4 * min_dom + 3])
                                         min_dom = delta_size;
                         }     
 
@@ -85,11 +88,11 @@ restore:
                                 if (delta[4 * i    ] == 1)
                                         bf_set(domains[i].field, queen_place);
 
-                                if (queen_place + (col - i) < MAX_QUEENS &&
+                                if (queen_place + (col - i) < cb->size &&
                                     delta[4 * i + 1] == 1) 
                                         bf_set(domains[i].field, queen_place + (col - i));
 
-                                if (queen_place - (col - i) < MAX_QUEENS &&
+                                if (queen_place - (col - i) < cb->size &&
                                     delta[4 * i + 2] == 1)
                                         bf_set(domains[i].field, queen_place - (col - i));    
                         }
@@ -108,8 +111,11 @@ restore:
 int forward(cb_t* cb) {
         bf_t    domains[MAX_QUEENS];
 
-        for (size_t i = 0; i < cb->size; ++i) 
-                bf_init(&domains[i], 1);
+        for (size_t i = 0; i < cb->size; ++i) {
+                // bf_init(&domains[i], 1);
+                bf_init_from(&domains[i], cb->size);
+                bf_not(&domains[i]);
+        }
         
 
         return fw_rec(cb, domains, 0);
