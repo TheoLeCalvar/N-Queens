@@ -17,7 +17,7 @@ else {
 
 my $outFile;
 
-open $outFile, '>', 'results.txt' or die "Can't open resultats.txt\n";
+open $outFile, '>', 'res/results.txt' or die "Can't open resultats.txt\n";
 
 print{$outFile}("$function\nsize;realtime;res\n");
 print("$function\nsize;realtime;res\n");
