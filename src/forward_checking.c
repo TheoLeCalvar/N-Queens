@@ -13,73 +13,69 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
         if (col < cb->size) {
                 size_t  queen_place = -1;
                 size_t  min_dom = -1;
-                size_t  delta_size = 0;;
-                char    delta[MAX_QUEENS * 4];
-                //      delta[queens] = {i, j, k, l}
-                //      row, diag +, diag -, count
-                //UPDATE, utiliser 0x01, 0x02, 0x04 et 0x08 !!!
+                size_t  min_dom_val = -1;
+                size_t  tmp_count;
+                size_t  delta_size = 0;
+                u8      delta[MAX_QUEENS];
+                //ROW_MASK, DIAG1_MASK and DIAG2_MASK, save  if we need to revert the bit or not
 
+                //just to be safe, but this should not happen
                 if (cb->queens[col] != -1)
                         return 1;
 
                 //now we get our first available queen in the remaining domain
                 while ((queen_place = bf_get_next_setted(&domains[col], queen_place)) < cb->size) {
-                        //we place the queen in the first available slot
+                        //we place the queen in the first available row
                         cb->queens[col] = queen_place;
-
-                        // cb_print(cb);
 
                         //we update the domains of unplaced queens
                         for (delta_size = 0; delta_size < cb->size; ++delta_size) {
 
-                                delta[4 * delta_size    ] = -1;
-                                delta[4 * delta_size + 1] = -1;
-                                delta[4 * delta_size + 2] = -1;
-                                delta[4 * delta_size + 3] = -1;
+                                delta[delta_size] = 0;
 
                                 if (cb->queens[delta_size] != -1)
                                         continue;
 
                                 //UPDATE, utiliser 0x01, 0x02, 0x04 et 0x08 !!!
                                 if (bf_get(domains[delta_size].field, queen_place)) {
-                                        delta[4 * delta_size    ] = 1;
+                                        delta[delta_size] |= ROW_MASK;
                                         bf_unset(domains[delta_size].field, queen_place);
                                 }
 
                                 if (queen_place + (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place + (col - delta_size))
                                     ) {
-                                        delta[4 * delta_size + 1] = 1;
+                                        delta[delta_size] |= DIAG1_MASK;
                                         bf_unset(domains[delta_size].field, queen_place +  (col - delta_size));
                                 }
 
                                 if (queen_place - (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place - (col - delta_size))
                                     ) {
-                                        delta[4 * delta_size + 2] = 1;
+                                        delta[delta_size] |= DIAG2_MASK;
                                         bf_unset(domains[delta_size].field, queen_place - (col - delta_size));
                                 }
 
-                                if (bf_get_next_setted(&domains[delta_size], -1) >= cb->size)
+
+                                tmp_count = bf_count(&domains[delta_size]);
+
+                                //the domain is empty, no need to go further, clean and test the next place
+                                if (tmp_count == 0)
                                         goto restore;
 
-                                delta[4 * delta_size + 3] = bf_count(&domains[delta_size]);
-
-                                //y'a un bug dans delta[min_dom], mais c'est plus rapide et toujours valide ...
-                                if (min_dom == -1 || delta[4 * delta_size + 3] < delta[4 * min_dom + 3])
+                                //if the domain is smaller we save it for the next step
+                                if (min_dom == -1 || tmp_count < min_dom_val) {
                                         min_dom = delta_size;
+                                        min_dom_val = tmp_count;
+                                }
                         }     
 
 
-                        // cb_display(cb);
-                        // cb_print(cb);
-                        // bf_print(&domains[col], cb->size);
-                        // printf("%d\n", queen_place);
-
-                        //recursive call with updated domains
+                        //we check the smallest domain first, cause it's better !
                         if (!fw_rec(cb, domains, min_dom))
                                 return 0;
 
+                       
 restore:
                         //else we have to undo what we have done and try the next place
                         cb->queens[col] = -1;
@@ -87,15 +83,15 @@ restore:
 
 
                         for (size_t i = 0; i <= delta_size; ++i) {
-                                if (delta[4 * i    ] == 1)
+                                if (delta[i] & ROW_MASK)
                                         bf_set(domains[i].field, queen_place);
 
-                                if (queen_place + (col - i) < cb->size &&
-                                    delta[4 * i + 1] == 1) 
+                                //no need to check if value is in bound, it has already been done when set
+                                if (delta[i] & DIAG1_MASK) 
                                         bf_set(domains[i].field, queen_place + (col - i));
 
-                                if (queen_place - (col - i) < cb->size &&
-                                    delta[4 * i + 2] == 1)
+                                //idem
+                                if (delta[i] & DIAG2_MASK)
                                         bf_set(domains[i].field, queen_place - (col - i));    
                         }
 
@@ -106,15 +102,15 @@ restore:
         }
         //we are at the bottom, only one choice, evaluate the leaf
         else
-                return cb_validates(cb);
+                return cb_validates_full(cb);
 }
 
 
 int forward(cb_t* cb) {
         bf_t    domains[MAX_QUEENS];
 
+        //we set the cb->size first bits to 1
         for (size_t i = 0; i < cb->size; ++i) {
-                // bf_init(&domains[i], 1);
                 bf_init_from(&domains[i], cb->size);
                 bf_not(&domains[i]);
         }
