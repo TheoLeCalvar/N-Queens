@@ -1,6 +1,6 @@
 #ifndef _chessboard_h_
 #define _chessboard_h_
-
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

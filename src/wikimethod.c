@@ -7,7 +7,7 @@ int wiki_method(cb_t * cb)
 	size_t y = 0;
 
 	size_t i = 1;
-		for (; i <= n/2 /* + (n%2) ? 1 : 0*/; i++, k += 2) {
+		for (; i <= n/2 ; i++, k += 2) {
 			cb->queens[i-1] =  k;
 			//printf("%d",i );
 		}	

@@ -32,20 +32,35 @@ int     local_search(cb_t* cb) {
         cb_init_rand(cb,cb->size);
         srand(time(NULL));
         u32 *   buf;
-        size_t tmp = 0;
+        double T = 100;
+        //size_t tmp = 0;
+        //size_t tmp2 = 0;
         buf = malloc(cb->size * sizeof(u32));
         while (cb_conflicts(cb,buf) > 0 ) {
                         int c = cb_conflicts(cb,buf);
                         /*for (int i = 0; i < cb->size; i++) {
 
-                                if (tmp < buf[i])
+                                if (tmp < buf[i]) {
                                         tmp = buf[i];
-                        }*/
+                                        tmp2 = i;
+     
+                                }
+                        }ca put la merde et ralentie le truc */
                         size_t r1 = rand()%(cb->size);
                         size_t r2 = rand()%(cb->size);
-                        cb_swap(cb,r1,r2);
-                        if (cb_conflicts(cb,buf) > c)
-                                cb_swap(cb,r1,r2);   
+                        if (r1 != r2) {
+                                cb_swap(cb,r1,r2);
+
+                                if (cb_conflicts(cb,buf) > c) {
+                                        double deltaf = (cb_conflicts(cb,buf) - c);
+                                        if ((exp(-deltaf/T)) < 0.5)
+                                                T = 0.6 * T;
+                                        else
+                                                cb_swap(cb,r1,r2);
+                                }
+                                               
+                        }
+                         
                 }
         return cb_validates(cb);       
 }
@@ -61,7 +76,7 @@ int     local_search(cb_t* cb) {
                 return 1;
         }
 
-        if (cb->size == -1) {
+        if (cb->size == -1) {cb
                 log_err("Can't allocate chessboard");
                 return 1;
         }

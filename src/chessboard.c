@@ -232,9 +232,11 @@ void    cb_print(const cb_t* cb) {
 
 }
 void    cb_swap(cb_t* cb, size_t q1, size_t q2) {
-        size_t tmp = cb->queens[q1];
-        cb->queens[q1] = cb->queens[q2];
-        cb->queens[q2] = tmp;
+            size_t tmp = cb->queens[q1];
+            cb->queens[q1] = cb->queens[q2];
+            cb->queens[q2] = tmp;
+        
+        
 }
 /*size_t  cb_more_conflicts(u32 * buf) {
     for (int i = 0; i < buf)
