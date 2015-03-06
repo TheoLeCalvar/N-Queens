@@ -4,14 +4,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OpenCL/opencl.h>
 
 #include "log.h"
 
 #include "types.h"
 #include "bf.h"
 
-#define MAX_QUEENS    2048
+#define MAX_QUEENS    4096
 
 typedef struct chessboard {
         size_t          size;
@@ -31,8 +30,6 @@ int     cb_validates_fast(const cb_t* cb, size_t row, size_t col);
 
 int     cb_validates_full(const cb_t* cb);
 
-
-int     cb_validates_cl(const cb_t* cb, size_t row, size_t col);
 
 
 //fill buff with the number of conflict per queen, buf must be long enought

@@ -2,6 +2,11 @@
 
 
 void    cb_init(cb_t* cb, size_t size) {
+        if (size > MAX_QUEENS) {
+                log_err("Can't initialize chessboard, size > %d.\nAdjust MAX_QUEENS in chessboard.h.", MAX_QUEENS);
+                cb->size = 0;
+                return;
+        }
         cb->size = size;
 
         bf_init(&cb->cols, 1);
