@@ -17,7 +17,7 @@ CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99 -Wno-format
 else
 CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99 -Wno-format
 endif
-LDFLAGS=
+LDFLAGS= -lm
 
 ## Directories
 DOBJ=obj
