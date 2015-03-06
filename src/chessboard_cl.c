@@ -26,7 +26,7 @@ const char *kernelSource = "\n"\
 "#pragma OPENCL EXTENSION cl_khr_global_int32_extended_atomics : enable\n"\
 "#pragma OPENCL EXTENSION cl_khr_local_int32_extended_atomics : enable\n"\
 "__kernel void validate(                \n"\
-"       __global uint* queens,          \n"\  
+"       __global uint* queens,          \n"\
 "       __global uint* output,          \n"\
 "       const uint col,                 \n"\
 "       const uint size)                \n"\
@@ -115,6 +115,8 @@ int    cl_init() {
                 printf("Error: Failed to retrieve kernel work group info! %d\n", err);
                 exit(1);
         }
+
+        return  0;
 }
 
 int     cb_validates_cl(const cb_t* cb, size_t row, size_t col) {
