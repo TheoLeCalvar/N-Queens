@@ -14,9 +14,10 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                 size_t  queen_place = -1;
                 size_t  min_dom = -1;
                 size_t  delta_size = 0;;
-                size_t  delta[MAX_QUEENS * 4];
+                char    delta[MAX_QUEENS * 4];
                 //      delta[queens] = {i, j, k, l}
                 //      row, diag +, diag -, count
+                //UPDATE, utiliser 0x01, 0x02, 0x04 et 0x08 !!!
 
                 if (cb->queens[col] != -1)
                         return 1;
@@ -39,6 +40,7 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                                 if (cb->queens[delta_size] != -1)
                                         continue;
 
+                                //UPDATE, utiliser 0x01, 0x02, 0x04 et 0x08 !!!
                                 if (bf_get(domains[delta_size].field, queen_place)) {
                                         delta[4 * delta_size    ] = 1;
                                         bf_unset(domains[delta_size].field, queen_place);
