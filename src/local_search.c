@@ -1,5 +1,5 @@
 #include "local_search.h"
-
+#include <math.h>
 /*extern void init_cb_rand(cb_t* cb) {
         for (size_t i = 0; i < cb->size; ++i) {
                 cb->queens[i] = cb_best_row(cb, i);
@@ -52,8 +52,10 @@ int     local_search(cb_t* cb) {
                                 cb_swap(cb,r1,r2);
 
                                 if (cb_conflicts(cb,buf) > c) {
-                                        double deltaf = (cb_conflicts(cb,buf) - c);
-                                        if ((exp(-deltaf/T)) < 0.5)
+                                        double deltaf = -(cb_conflicts(cb,buf) - c)/T;
+                                        double h = exp(deltaf);
+
+                                        if (h < 0.5)
                                                 T = 0.6 * T;
                                         else
                                                 cb_swap(cb,r1,r2);

@@ -1,10 +1,10 @@
 #ifndef _chessboard_h_
 #define _chessboard_h_
-#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include "log.h"
+//#include <math.h>
 
 #include "types.h"
 #include "bf.h"
