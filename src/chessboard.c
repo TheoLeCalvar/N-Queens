@@ -38,6 +38,21 @@ int     cb_validates(const cb_t* cb) {
         return 0;
 }
 
+int     cb_validates_full(const cb_t* cb) {
+        if (!cb->size) return -1;
+
+        for (size_t i = 0; i < cb->size; ++i) {
+                //si c'est > size (inclus == -1)
+                if (cb->queens[i] >= cb->size) return 1;
+                for (size_t j = i + 1; j < cb->size; ++j)
+                        if (cb->queens[i] == cb->queens[j] ||
+                            abs(cb->queens[i] - cb->queens[j] == abs(i - j)))
+                                return 1;
+        }
+
+        return 0;
+}
+
 int     cb_validates_fast(const cb_t* cb, size_t row, size_t col) {
         if (!cb->size) {
                 log_info("Call cv_validates_fast on unintialized chessboard");

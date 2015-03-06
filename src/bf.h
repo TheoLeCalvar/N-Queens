@@ -14,7 +14,7 @@
 
 /* Maximum number of bits. */
 #ifndef BF_MAX_BITS
-        #define BF_MAX_BITS  512
+        #define BF_MAX_BITS  256
 #endif
 
 #if (BF_MAX_BITS % 64) != 0

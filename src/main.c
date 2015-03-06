@@ -129,8 +129,9 @@ int main(int argc, char** argv) {
         }
 
         cb_print(&res);
+        // cb_display(&res);
 
-        if (cb_validates(&res)) {
+        if (cb_validates_full(&res)) {
             log_err("The solution isn't valid, this should not happen");
         }
 

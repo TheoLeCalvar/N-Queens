@@ -11,7 +11,7 @@
 #include "types.h"
 #include "bf.h"
 
-#define MAX_QUEENS    512
+#define MAX_QUEENS    256
 
 typedef struct chessboard {
         size_t          size;
@@ -28,6 +28,8 @@ int    cl_init();
 int     cb_validates(const cb_t* cb);
 
 int     cb_validates_fast(const cb_t* cb, size_t row, size_t col);
+
+int     cb_validates_full(const cb_t* cb);
 
 
 int     cb_validates_cl(const cb_t* cb, size_t row, size_t col);

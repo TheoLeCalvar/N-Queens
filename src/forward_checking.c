@@ -41,16 +41,16 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                                         bf_unset(domains[delta_size].field, queen_place);
                                 }
 
-                                if (    queen_place + (col - delta_size) < MAX_QUEENS &&
-                                        bf_get(domains[delta_size].field, queen_place + (col - delta_size))
-                                        ) {
+                                if (queen_place + (col - delta_size) < MAX_QUEENS &&
+                                    bf_get(domains[delta_size].field, queen_place + (col - delta_size))
+                                    ) {
                                         delta[4 * delta_size + 1] = 1;
                                         bf_unset(domains[delta_size].field, queen_place +  (col - delta_size));
                                 }
 
-                                if (    queen_place - (col - delta_size) < MAX_QUEENS &&
-                                        bf_get(domains[delta_size].field, queen_place - (col - delta_size))
-                                        ) {
+                                if (queen_place - (col - delta_size) < MAX_QUEENS &&
+                                    bf_get(domains[delta_size].field, queen_place - (col - delta_size))
+                                    ) {
                                         delta[4 * delta_size + 2] = 1;
                                         bf_unset(domains[delta_size].field, queen_place - (col - delta_size));
                                 }
@@ -60,6 +60,7 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
 
                                 delta[4 * delta_size + 3] = bf_count(&domains[delta_size]);
 
+                                //y'a un bug dans delta[min_dom], mais c'est plus rapide et toujours valide ...
                                 if (min_dom == -1 || delta[4 * delta_size + 3] < delta[min_dom])
                                         min_dom = delta_size;
                         }     
@@ -67,11 +68,10 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
 
                         // cb_display(cb);
                         // cb_print(cb);
-                        bf_print(&domains[col], cb->size);
-                        printf("%d\n", queen_place);
+                        // bf_print(&domains[col], cb->size);
+                        // printf("%d\n", queen_place);
 
-                        //if the temp construction is valid we propagate it
-                        //and if we found a solution, propagate the return
+                        //recursive call with updated domains
                         if (!fw_rec(cb, domains, min_dom))
                                 return 0;
 
