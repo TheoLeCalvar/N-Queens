@@ -52,12 +52,12 @@ int     local_search(cb_t* cb) {
                                 cb_swap(cb,r1,r2);
 
                                 if (cb_conflicts(cb,buf) > c) {
-                                        double deltaf = -(cb_conflicts(cb,buf) - c)/T;
-                                        double h = exp(deltaf);
+                                       /* double deltaf = -(cb_conflicts(cb,buf) - c)/T;
+                                        
 
-                                        if (h < 0.5)
-                                                T = 0.6 * T;
-                                        else
+                                        if (exp(deltaf) < 0.33)
+                                                T = 0.2 * T;
+                                        else*/
                                                 cb_swap(cb,r1,r2);
                                 }
                                                
