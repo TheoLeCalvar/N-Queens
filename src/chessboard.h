@@ -42,6 +42,7 @@ void    cb_rows(cb_t*, size_t col, u32* buf);
 
 void    cb_print(const cb_t* cb);
 
+
 //size_t cb_best_conflicts(u32* buf);
 
 //mettre en place évaluation incrémentale (reprendre le résultat précédent du calcul)
