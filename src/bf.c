@@ -77,6 +77,11 @@ size_t bf_get_next_setted(const bf_t* bf, size_t cur) {
         
         i = cur / BF_PART_SIZE;
 
+        if (cur % BF_PART_SIZE == BF_PART_SIZE - 1) {
+                ++i;
+                goto simple;
+        }
+
         // First, will need to mask the (cur - i * 64) first bits of the
         // first bf part.
         bf_type_t mask = ((bf_type_t) -1) << (cur - i * BF_PART_SIZE + 1);
@@ -213,26 +218,39 @@ int main(int argc, char** argv) {
         TEST_ASSERT("Check bf_and", bf_count(&b) == 1);
 
         bf_set(b.field, 0);
-        bf_set(b.field, 47);
+        bf_set(b.field, 46);
+        bf_set(b.field, 63);
+        bf_set(b.field, 64);
         bf_set(b.field, 65);
         bf_set(b.field, 76);
+        bf_set(b.field, 87);
+        bf_set(b.field, 107);
         size_t it = -1;
         TEST_ASSERT("Check bf_get_next_setted (1)",
                     (it = bf_get_next_setted(&b, it)) == 0);
         TEST_ASSERT("Check bf_get_next_setted (2)",
                     (it = bf_get_next_setted(&b, it)) == 15);
         TEST_ASSERT("Check bf_get_next_setted (3)",
-                    (it = bf_get_next_setted(&b, it)) == 47);
+                    (it = bf_get_next_setted(&b, it)) == 46);
         TEST_ASSERT("Check bf_get_next_setted (4)",
-                    (it = bf_get_next_setted(&b, it)) == 65);
+                    (it = bf_get_next_setted(&b, it)) == 63);        
         TEST_ASSERT("Check bf_get_next_setted (5)",
-                    (it = bf_get_next_setted(&b, it)) == 76);
+                    (it = bf_get_next_setted(&b, it)) == 64);
         TEST_ASSERT("Check bf_get_next_setted (6)",
+                    (it = bf_get_next_setted(&b, it)) == 65);
+        TEST_ASSERT("Check bf_get_next_setted (7)",
+                    (it = bf_get_next_setted(&b, it)) == 76);
+        TEST_ASSERT("Check bf_get_next_setted (8)",
+                    (it = bf_get_next_setted(&b, it)) == 87);
+        TEST_ASSERT("Check bf_get_next_setted (9)",
+                    (it = bf_get_next_setted(&b, it)) == 107);
+        TEST_ASSERT("Check bf_get_next_setted (10)",
                     (it = bf_get_next_setted(&b, it)) == -1);
 
         bf_init(&a, 1);
         bf_diff(&a, &b);
-        TEST_ASSERT("Check bf_diff", !bf_get(a.field, 47));
+
+        TEST_ASSERT("Check bf_diff", !bf_get(a.field, 46));
 
         bf_init(&a, 0);
         a.field[0] = 1087;
@@ -267,7 +285,7 @@ int main(int argc, char** argv) {
         bf_not_to(&a, &b);
         TEST_ASSERT("Check bf_not_to", (bf_empty(&b)));
 
-        return 0;
+          return 0;
 }
 
 #endif
