@@ -28,6 +28,9 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                         //we place the queen in the first available row
                         cb->queens[col] = queen_place;
 
+                        // printf("We are in (%zu, %zu) - ", col, queen_place);
+                        // bf_print(&domains[col], cb->size);
+
                         //we update the domains of unplaced queens
                         for (delta_size = 0; delta_size < cb->size; ++delta_size) {
 
@@ -46,16 +49,19 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                                     bf_get(domains[delta_size].field, queen_place + (col - delta_size))
                                     ) {
                                         delta[delta_size] |= DIAG1_MASK;
-                                        bf_unset(domains[delta_size].field, queen_place +  (col - delta_size));
+                                        bf_unset(domains[delta_size].field, queen_place + (col - delta_size));
+                                        // printf("We are in (%zu,%zu) and we unset (%zu, %zu)\n", col, queen_place, delta_size, queen_place + (col - delta_size));
                                 }
-
+                                //POIURQUOI ÇA FAIT CRASH LE PROGRAMME SUR CERTAINES VALEURS !?8?88?
                                 if (queen_place - (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place - (col - delta_size))
                                     ) {
                                         delta[delta_size] |= DIAG2_MASK;
                                         bf_unset(domains[delta_size].field, queen_place - (col - delta_size));
+                                        // printf("We are in (%zu,%zu) and we unset (%zu, %zu)\n", col, queen_place, delta_size, queen_place - (col - delta_size));
                                 }
 
+                                // bf_print(&domains[delta_size], cb->size);
 
                                 tmp_count = bf_count(&domains[delta_size]);
 
@@ -75,6 +81,7 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                         if (!fw_rec(cb, domains, min_dom))
                                 return 0;
 
+                        // printf("Back from recursion (%zu, %zu)\n", col, queen_place);
                        
 restore:
                         //else we have to undo what we have done and try the next place
@@ -82,7 +89,7 @@ restore:
                         min_dom = -1;
 
 
-                        for (size_t i = 0; i <= delta_size; ++i) {
+                        for (size_t i = 0; i < cb->size && i <= delta_size; ++i) {
                                 if (delta[i] & ROW_MASK)
                                         bf_set(domains[i].field, queen_place);
 
@@ -96,7 +103,7 @@ restore:
                         }
 
                 }
-
+                // printf("Backtrack (%zu)\n", col);
                 return 1;
                 
         }
