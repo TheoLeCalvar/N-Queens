@@ -47,6 +47,8 @@ void    cb_print(const cb_t* cb);
 
 void    cb_display(const cb_t* cb);
 
+void    cb_to_img(const cb_t* cb, const char* path);
+
 //mettre en place évaluation incrémentale (reprendre le résultat précédent du calcul)
 //forcer une reine par ligne/colonne, passer sur 2 tableaux ?
 //un pour les lignes et un pour les colonnes ?
