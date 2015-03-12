@@ -51,6 +51,7 @@ void    usage() {
                "options:\n"
                " --help\tdisplay this message\n"
                " --algo=<algo>\tuse specified the algorithm\n"
+               " --image=path\texport chessboard configuration to bmp image\n"
                " algorithms are:\n");
         algo_help();
 }
@@ -59,16 +60,18 @@ struct option options[] = {
         //{name, has_arg, flag, val}
         {"help",        0, NULL, 'h'},
         {"algo",        1, NULL, 'a'},
+        {"image",       0, NULL, 'i'},
         {0,             0, NULL, 0}
 };
 
 int main(int argc, char** argv) {
         int     opt;
-        int     algo = 0; 
-        size_t  size = 0; 
+        int     algo = 0;
+        char*   path = NULL;
+        size_t  size = 0;
         cb_t    res;
 
-        while ((opt = getopt_long(argc, argv, "a:h", options, NULL)) >= 0) {
+        while ((opt = getopt_long(argc, argv, "a:i:h", options, NULL)) >= 0) {
 
                 switch (opt) {
                         case 'h':
@@ -82,6 +85,10 @@ int main(int argc, char** argv) {
                                         algo_help();
                                         return -1;
                                 }
+                                break;
+
+                        case 'i':
+                                path = optarg;
                                 break;
 
                         case '?':
@@ -132,7 +139,12 @@ int main(int argc, char** argv) {
         // cb_display(&res);
 
         if (cb_validates_full(&res)) {
-            log_err("The solution isn't valid, this should not happen");
+                log_err("The solution isn't valid, this should not happen");
+        }
+
+
+        if (path) {
+                cb_to_img(&res, path);
         }
 
         return 0;
