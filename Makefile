@@ -13,9 +13,9 @@
 ## Compiler
 CC=clang
 ifdef DEBUG
-CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99 -Wno-format 
+CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99
 else
-CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99 -Wno-format
+CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99
 endif
 LDFLAGS=
 
@@ -71,4 +71,3 @@ wikimethod.test: $(DSRC)/wikimethod.c $(DOBJ)/chessboard.o $(DOBJ)/bf.o
 $(DOBJ)/%.o: $(DSRC)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
-
