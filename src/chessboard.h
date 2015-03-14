@@ -14,8 +14,6 @@
 
 typedef struct chessboard {
         size_t          size;
-        bf_t            cols; //bitset, available cols, 1 empty, 0 full
-        bf_t            rows; // bitset, available rows
         u32             queens[MAX_QUEENS]; //position of the queen
 } cb_t;
 
@@ -32,7 +30,7 @@ int     cb_validates_full(const cb_t* cb);
 
 //fill buff with the number of conflict per queen, buf must be long enought
 //if buff is NULL, it only return the number of conflicting queens
-//returns the number of conflicting queens, -1 if cb is invalid 
+//returns the number of conflicting queens, -1 if cb is invalid
 int     cb_conflicts(const cb_t* cb, u32* buf);
 
 

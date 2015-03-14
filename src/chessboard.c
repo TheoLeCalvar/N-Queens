@@ -11,20 +11,11 @@ void    cb_init(cb_t* cb, size_t size) {
         }
         cb->size = size;
 
-        bf_init(&cb->cols, 1);
-        bf_init(&cb->rows, 1);
 
-
-        if (0) {
-                cb->size = 0;
-                log_err("Can't initialize chessboard.");
-                return;
-        }
-
-        for (size_t i = 0; i < cb->size; ++i)      
+        for (size_t i = 0; i < cb->size; ++i)
                 cb->queens[i] = -1;
 
-}       
+}
 
 int     cb_validates(const cb_t* cb) {
         if (!cb->size) {
@@ -34,13 +25,13 @@ int     cb_validates(const cb_t* cb) {
 
         for (size_t i = 0; i < cb->size; ++i) {
                 for (size_t j = i+1; j < cb->size; ++j)
-                        if (cb->queens[j] != -1 && 
-                            abs(i - j) == 
+                        if (cb->queens[j] != -1 &&
+                            abs(i - j) ==
                             abs(cb->queens[i] - cb->queens[j])
-                        ) 
+                        )
                                 return 1;
         }
-                        
+
 
         return 0;
 }
@@ -124,7 +115,7 @@ size_t  cb_best_row(cb_t* cb, size_t col) {
 
                 if (conflicts == 0) {
                         cb->queens[col] = orig;
-                        return i;                       
+                        return i;
                 }
 
                 if (conflicts < best_conflicts) {
@@ -150,7 +141,7 @@ void    cb_rows(cb_t* cb, size_t col, u32* buf) {
         for (size_t i = 0; i < cb->size; ++i) {
                 cb->queens[col] = i;
 
-                buf[i] = cb_conflicts(cb, NULL); 
+                buf[i] = cb_conflicts(cb, NULL);
         }
 
         cb->queens[col] = orig;
@@ -275,13 +266,13 @@ int main(int argc, char** argv) {
         TEST_ASSERT("Check cb_validate (2)", cb_validates(&cb) > 0);
 
         cb_conflicts(&cb, buf);
-        TEST_ASSERT("Check cb_conflicts", 
-                (       buf[0] == 0 && 
+        TEST_ASSERT("Check cb_conflicts",
+                (       buf[0] == 0 &&
                         buf[1] == 0 &&
                         buf[2] == 0 &&
                         buf[3] == 0 &&
                         buf[4] == 0 &&
-                        buf[5] == 1 && 
+                        buf[5] == 1 &&
                         buf[6] == 1 &&
                         buf[7] == 0
                 ));
@@ -290,11 +281,11 @@ int main(int argc, char** argv) {
         TEST_ASSERT("Check cb_best_row", cb_best_row(&cb, 5) == 1);
 
         cb_rows(&cb, 5, buf);
-        TEST_ASSERT("Check cb_rows", 
+        TEST_ASSERT("Check cb_rows",
                 (
                         buf[0] == 3 &&
                         buf[1] == 1 &&
-                        buf[2] == 2 && 
+                        buf[2] == 2 &&
                         buf[3] == 2 &&
                         buf[4] == 2 &&
                         buf[5] == 1 &&
