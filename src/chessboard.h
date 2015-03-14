@@ -21,8 +21,6 @@ typedef struct chessboard {
 
 void    cb_init(cb_t* cb, size_t size);
 
-int    cl_init();
-
 //returns 0 if the chessboard is valid, < 0 if uninitialized, > 0 if invalid
 int     cb_validates(const cb_t* cb);
 
