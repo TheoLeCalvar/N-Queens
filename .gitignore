@@ -5,3 +5,7 @@ test/
 obj/
 res/
 old/
+
+*.jpg
+*.png
+*.bmp
