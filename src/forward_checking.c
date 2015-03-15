@@ -1,6 +1,6 @@
 #include "forward_checking.h"
 
-//a terme, adapter chessboard, proposer un bt_t[MAXQ_QUEENS], et pour chaque reine placée 
+//a terme, adapter chessboard, proposer un bt_t[MAXQ_QUEENS], et pour chaque reine placée
 //mettre à jour les autres en modifiant les domaines
 
 //problème, il faudra trouver un moyen de garder les différences entre les domaines
@@ -8,7 +8,8 @@
 
 //amélioration possible, pour la ligne, réduire les valeurs possible en supprimant les
 //valeur dans les diagonales des reines précédentes
-extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
+extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
+        ++*calls;
         //weare not at the end, now we have to select where to place the colth queens
         if (col < cb->size) {
                 size_t  queen_place = -1;
@@ -74,15 +75,15 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col) {
                                         min_dom = delta_size;
                                         min_dom_val = tmp_count;
                                 }
-                        }     
+                        }
 
 
                         //we check the smallest domain first, cause it's better !
-                        if (!fw_rec(cb, domains, min_dom))
+                        if (!fw_rec(cb, domains, min_dom, calls))
                                 return 0;
 
                         // printf("Back from recursion (%zu, %zu)\n", col, queen_place);
-                       
+
 restore:
                         //else we have to undo what we have done and try the next place
                         cb->queens[col] = -1;
@@ -94,18 +95,18 @@ restore:
                                         bf_set(domains[i].field, queen_place);
 
                                 //no need to check if value is in bound, it has already been done when set
-                                if (delta[i] & DIAG1_MASK) 
+                                if (delta[i] & DIAG1_MASK)
                                         bf_set(domains[i].field, queen_place + (col - i));
 
                                 //idem
                                 if (delta[i] & DIAG2_MASK)
-                                        bf_set(domains[i].field, queen_place - (col - i));    
+                                        bf_set(domains[i].field, queen_place - (col - i));
                         }
 
                 }
                 // printf("Backtrack (%zu)\n", col);
                 return 1;
-                
+
         }
         //we are at the bottom, only one choice, evaluate the leaf
         else
@@ -115,13 +116,17 @@ restore:
 
 int forward(cb_t* cb) {
         bf_t    domains[MAX_QUEENS];
+        size_t  calls = 0;
 
         //we set the cb->size first bits to 1
         for (size_t i = 0; i < cb->size; ++i) {
                 bf_init_from(&domains[i], cb->size);
                 bf_not(&domains[i]);
         }
-        
 
-        return fw_rec(cb, domains, 0);
+        int res = fw_rec(cb, domains, 0, &calls);
+
+        printf("Returns in %zu calls\n", calls);
+
+        return res;
 }
