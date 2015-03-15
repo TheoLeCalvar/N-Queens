@@ -43,6 +43,9 @@ void    cb_init_rand(cb_t* cb, size_t size) {
                 if (cb->queens[j] == alea ) {
                     ok = false;
                 }
+               // if (abs(j - indice) == abs(cb->queens[j] - alea)) {
+                 //   ok = false;
+                //}
                 
             }
             if (ok) {
