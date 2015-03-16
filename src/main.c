@@ -6,6 +6,7 @@
 #include "chessboard.h"
 
 #include "local_search.h"
+#include "local_search2.h"
 #include "wikimethod.h"
 #include "backtrack.h"
 #include "forward_checking.h"
@@ -19,7 +20,7 @@ typedef struct algo {
 } algo_t;
 
 algo_t algos[] = {
-        {"ls",  "local search",         &local_search},
+        {"ls",  "local search",         &local_search2},
         {"bt",  "backtrack",            &backtrack},
         {"fw",  "forward checking",     &forward},
         {"bf",  "bruteforce",           NULL},

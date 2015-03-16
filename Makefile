@@ -17,7 +17,7 @@ CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99
 else
 CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99
 endif
-LDFLAGS=
+LDFLAGS= -lm
 
 ## Directories
 DOBJ=obj
@@ -37,8 +37,8 @@ program: $(TARGET)
 
 $(TARGET): $(DOBJ)/main.o $(DOBJ)/bf.o \
 	   $(DOBJ)/chessboard.o $(DOBJ)/local_search.o \
-	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o \
-	   $(DOBJ)/forward_checking.o
+	   $(DOBJ)/forward_checking.o $(DOBJ)/local_search2.o \
+	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:

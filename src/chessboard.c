@@ -17,6 +17,43 @@ void    cb_init(cb_t* cb, size_t size) {
 
 }
 
+void    cb_init_rand(cb_t* cb, size_t size) {
+        cb->size = size;
+
+
+        if (0) {
+                cb->size = 0;
+                log_err("Can't initialize chessboard.");
+                return;
+        }
+
+        for (size_t i = 0; i < cb->size; ++i)
+                cb->queens[i] = -1;
+
+        srand(time(NULL));
+        size_t indice = 0;
+        while (indice < cb->size) {
+
+            size_t alea = rand()%(size);
+            bool ok = true;
+            for (int j = 0; j < cb->size; ++j) {
+
+                if (cb->queens[j] == alea ) {
+                    ok = false;
+                }
+               // if (abs(j - indice) == abs(cb->queens[j] - alea)) {
+                 //   ok = false;
+                //}
+
+            }
+            if (ok) {
+                cb->queens[indice] = alea;
+                ++indice;
+            }
+
+        }
+}
+
 int     cb_validates(const cb_t* cb) {
         if (!cb->size) {
                 log_info("Call cb_validates on unintialized chessboard");
@@ -165,6 +202,13 @@ void    cb_display(const cb_t* cb) {
         }
 
         printf("Todo: format number to prevent bad display\n");
+
+}
+void    cb_swap(cb_t* cb, size_t q1, size_t q2) {
+            size_t tmp = cb->queens[q1];
+            cb->queens[q1] = cb->queens[q2];
+            cb->queens[q2] = tmp;
+
 
 }
 
