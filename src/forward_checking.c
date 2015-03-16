@@ -118,6 +118,11 @@ int forward(cb_t* cb) {
         bf_t    domains[MAX_QUEENS];
         size_t  calls = 0;
 
+        if (cb->size > MAX_QUEENS) {
+                log_err("This method can't be used with size > %d.", MAX_QUEENS);
+                return 1;
+        }
+
         //we set the cb->size first bits to 1
         for (size_t i = 0; i < cb->size; ++i) {
                 bf_init_from(&domains[i], cb->size);

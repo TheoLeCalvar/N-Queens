@@ -54,5 +54,10 @@ int backtrack(cb_t* cb) {
 
         bf_init(&rows, 1);
 
+        if (cb->size > MAX_QUEENS) {
+                log_err("This method can't be used with size > %d.", MAX_QUEENS);
+                return 1;
+        }
+
         return bt_rec(cb, 0, &rows);
 }

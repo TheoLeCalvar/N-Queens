@@ -4,28 +4,18 @@
 
 
 void    cb_init(cb_t* cb, size_t size) {
-        if (size > MAX_QUEENS) {
-                log_err("Can't initialize chessboard, size > %d.\nAdjust MAX_QUEENS in chessboard.h.", MAX_QUEENS);
-                cb->size = 0;
-                return;
-        }
         cb->size = size;
 
+        if (size > MAX_QUEENS) {
+                cb->queens = malloc(size * sizeof(u32));
+        }
 
-        for (size_t i = 0; i < cb->size; ++i)
-                cb->queens[i] = -1;
-
+        memset(cb->queens, -1, size * sizeof(u32));
 }
 
 void    cb_init_rand(cb_t* cb, size_t size) {
         cb->size = size;
 
-
-        if (0) {
-                cb->size = 0;
-                log_err("Can't initialize chessboard.");
-                return;
-        }
 
         for (size_t i = 0; i < cb->size; ++i)
                 cb->queens[i] = -1;

@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
         char*   path = NULL;
         size_t  size = 0;
         cb_t    res;
+        u32     queens[MAX_QUEENS];
 
         while ((opt = getopt_long(argc, argv, "a:i:h", options, NULL)) >= 0) {
 
@@ -123,6 +124,10 @@ int main(int argc, char** argv) {
         else if (size <= 3) {
                 printf("there is no solutions, size needs to be >= 3.\n");
                 return 1;
+        }
+
+        if (size <= MAX_QUEENS) {
+                res.queens = queens;
         }
 
         cb_init(&res, size);
