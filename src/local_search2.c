@@ -239,7 +239,7 @@ int local_search2(cb_t * cb) {
 	}*/
 	//printf("ok ? \n");
 	//size_t dame_actuel = 0;
-	while (c2 > 0) {
+	while (c > 0) {
 		
 			size_t dame_actuel = /*dame_max_conflit(cb->size,tablist)*/rand()%(cb->size);
 			size_t qi = cb->queens[dame_actuel];
@@ -253,14 +253,14 @@ int local_search2(cb_t * cb) {
 					
 					swap_d(size,dame_actuel,qi,r1,qj,diag_pos,diag_neg,conflict_pos,conflict_neg);
 					cb_swap(cb,dame_actuel,r1);
-					//if (cb_conflicts(cb,buf) > c) {
-					if (nb_conflict(size*2,conflict_neg,conflict_pos) > c2) {
+					if (cb_conflicts(cb,buf) > c) {
+					//if (nb_conflict(size*2,conflict_neg,conflict_pos) > c2) {
 						swap_d(size,r1,qj,dame_actuel,qi,diag_pos,diag_neg,conflict_pos,conflict_neg);
 						cb_swap(cb,r1,dame_actuel);
 					}
 					else
-						c2 = nb_conflict(size*2,conflict_neg,conflict_pos);
-						//c = cb_conflict_list(cb,tablist);
+						//c2 = nb_conflict(size*2,conflict_neg,conflict_pos);
+						c = cb_conflicts(cb,buf);
 					//int cconflit = cb_conflicts_point_list(cb,tablist,dame_actuel,r1);
 					//if (list_length(tablist[dame_actuel]) < cf_da)
 						//dame_actuel++;
