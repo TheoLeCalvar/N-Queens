@@ -114,7 +114,7 @@ typedef struct s_List List;
 				max = i;
 		}
 	}*/
-	void init_diagonal(cb_t * cb,size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
+	void init_diagonal(const cb_t * cb,size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
 		for(size_t i=0; i < cb->size; i++) {
 			
 			diag_pos[diagp(i,cb->queens[i],cb->size)] ++;
@@ -157,6 +157,24 @@ typedef struct s_List List;
 	bool queen_under_atak(size_t size, size_t i,size_t j, size_t * diag_pos, size_t * diag_neg) {
 		return (diag_pos[i + j] > 1 || diag_neg[i - j + size] > 1);
 	}
+	void affiche_diag(size_t size,size_t * diag_pos) {
+		printf("affichage ?\n");
+		for (size_t i=0 ; i < size; i++) {
+			printf("%d, ",diag_pos[i]);
+		}
+	}
+	size_t sum_tab(size_t size, size_t * conflict_pos) {
+		size_t value = 0;
+		for (size_t i = 0; i < size; ++i)
+		{
+			value += conflict_pos[i];
+		}
+		return value;
+	}
+	size_t nb_conflict(size_t size, size_t * conflict_neg, size_t * conflict_pos) {
+		return (sum_tab(size,conflict_neg)+sum_tab(size,conflict_pos));
+	}
+
 	/*void init_conflit(size_t size,const size_t * dp, const size_t * dn, size_t * cp, size_t * cn) {
 		size_t c1 = 0;
 		size_t c2 = 0;
@@ -176,7 +194,7 @@ int local_search2(cb_t * cb) {
 	printf("l'initialisation a commencé \n");
 	cb_init_rand(cb,cb->size);
 	printf("l'initialisation est terminé \n");
-
+	size_t size = cb->size;
 	srand(time(NULL));
 	List * tablist[cb->size];
 	size_t diag_pos[(cb->size * 2)];
@@ -202,37 +220,47 @@ int local_search2(cb_t * cb) {
 
 	}
 
-	void init_diagonal(cb, diag_pos, diag_neg, conflict_pos, conflict_neg); 
+	init_diagonal(cb, diag_pos, diag_neg, conflict_pos, conflict_neg); 
+	//affiche_diag(size,diag_pos);
 	for (size_t i = 0; i < cb->size; i++) {
 		tablist[i] = NULL;
 	}
 	u32 * buf ;
 	buf = malloc(cb->size *sizeof(u32));
 	int c = 0;
+	int c3 = cb_conflicts(cb,buf);
 	c = cb_conflict_list(cb,tablist);
-	if(cb_validates(cb))
-	{
-		printf("l'initialisation a fonctionné \n");
-	}
-
+	size_t c2 = nb_conflict(size*2,conflict_neg,conflict_pos);
+	if (c != c2)
+		printf("eu probleme mon capitain ? %d , %d  , %d \n",c,c2,c3);
 	/*for (size_t i = 0; i < cb->size; ++i) {
 		printf("colone numero %d \n",i);
 		list_affiche(tablist[i]);
 	}*/
 	//printf("ok ? \n");
 	//size_t dame_actuel = 0;
-	while (c > 0) {
+	while (c2 > 0) {
 		
 			size_t dame_actuel = /*dame_max_conflit(cb->size,tablist)*/rand()%(cb->size);
-			int cf_da = list_length(tablist[dame_actuel]);
-			if (cf_da > 0) {
+			size_t qi = cb->queens[dame_actuel];
+			if (queen_under_atak(size,dame_actuel,qi,diag_pos,diag_neg )) {
+			//int cf_da = list_length(tablist[dame_actuel]);
+			//if (cf_da > 0) {
 				size_t r1 = rand()%(cb->size);
-				if (r1 != dame_actuel && (list_isinside(tablist[dame_actuel],r1)== false)) {
+				size_t qj = cb->queens[r1];
+				if (r1 != dame_actuel ) {
+					
+					
+					swap_d(size,dame_actuel,qi,r1,qj,diag_pos,diag_neg,conflict_pos,conflict_neg);
 					cb_swap(cb,dame_actuel,r1);
-					if (cb_conflicts(cb,buf) > c)
+					//if (cb_conflicts(cb,buf) > c) {
+					if (nb_conflict(size*2,conflict_neg,conflict_pos) > c2) {
+						swap_d(size,r1,qj,dame_actuel,qi,diag_pos,diag_neg,conflict_pos,conflict_neg);
 						cb_swap(cb,r1,dame_actuel);
+					}
 					else
-						c = cb_conflict_list(cb,tablist);
+						c2 = nb_conflict(size*2,conflict_neg,conflict_pos);
+						//c = cb_conflict_list(cb,tablist);
 					//int cconflit = cb_conflicts_point_list(cb,tablist,dame_actuel,r1);
 					//if (list_length(tablist[dame_actuel]) < cf_da)
 						//dame_actuel++;
