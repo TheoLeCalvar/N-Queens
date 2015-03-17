@@ -107,13 +107,68 @@ typedef struct s_List List;
 		}
 		return false; 
 	}
-	size_t dame_max_conflit(size_t taille, List **tablist) {
+	/*size_t dame_max_conflit(size_t taille, List **tablist) {
 		size_t max = 0;
 		for (size_t i = 0; i < taille ; i++) {
 			if(list_length(tablist[i]) > max)
 				max = i;
 		}
+	}*/
+	void init_diagonal(cb_t * cb,size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
+		for(size_t i=0; i < cb->size; i++) {
+			
+			diag_pos[diagp(i,cb->queens[i],cb->size)] ++;
+			if (diag_pos[diagp(i,cb->queens[i],cb->size)] > 1)
+				conflict_pos[diagp(i,cb->queens[i],cb->size)]++;
+			
+			diag_neg[diagm(i,cb->queens[i],cb->size)] ++;
+			if (diag_neg[diagm(i,cb->queens[i],cb->size)] > 1)
+				conflict_neg[diagm(i,cb->queens[i],cb->size)]++;
+		}
 	}
+	void add_queen(size_t size,size_t i, size_t j,size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
+		diag_pos[diagp(i,j,size)]++;
+		diag_neg[diagm(i,j,size)]++;
+		if (diag_pos[diagp(i,j,size)] > 1)
+			conflict_pos[diagp(i,j,size)] ++;
+		if (diag_neg[diagm(i,j,size)] > 1)
+			conflict_neg[diagm(i,j,size)] ++;
+
+	}
+	void sup_queen(size_t size, size_t i,  size_t j, size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
+		diag_pos[i + j]--;
+		diag_neg[i - j + size]--;
+		if (diag_pos[i + j] <= 1)
+			conflict_pos[i + j]= 0;
+		else 
+			diag_pos[i + j]--;
+		if (diag_neg[i - j + size] <= 1)
+			conflict_neg[i - j + size] = 0;
+		else 
+			diag_neg[i - j + size]--;
+	}
+
+	void swap_d(size_t size, size_t i,size_t qi,size_t j,size_t qj,size_t * diag_pos,size_t * diag_neg,size_t * conflict_pos, size_t * conflict_neg) {
+		sup_queen(size,i,qi,diag_pos,diag_neg,conflict_pos,conflict_neg);
+		sup_queen(size,j,qj,diag_pos,diag_neg,conflict_pos,conflict_neg);
+		add_queen(size,i,qj,diag_pos,diag_neg,conflict_pos,conflict_neg);
+		add_queen(size,j,qi,diag_pos,diag_neg,conflict_pos,conflict_neg);
+	}
+	bool queen_under_atak(size_t size, size_t i,size_t j, size_t * diag_pos, size_t * diag_neg) {
+		return (diag_pos[i + j] > 1 || diag_neg[i - j + size] > 1);
+	}
+	/*void init_conflit(size_t size,const size_t * dp, const size_t * dn, size_t * cp, size_t * cn) {
+		size_t c1 = 0;
+		size_t c2 = 0;
+		for (size_t i = 0 ; i < (size * 2) ; i++) {
+			c1 += diag_pos[i];
+			c2 += diag_neg[i];	
+
+		}
+
+
+	}*/		
+
 
 
 int local_search2(cb_t * cb) {
@@ -124,6 +179,30 @@ int local_search2(cb_t * cb) {
 
 	srand(time(NULL));
 	List * tablist[cb->size];
+	size_t diag_pos[(cb->size * 2)];
+	size_t diag_neg[(cb->size * 2)];
+
+
+	size_t conflict_pos[cb->size * 2];
+	size_t conflict_neg[cb->size * 2];
+
+
+
+
+
+	for (size_t i=0; i < cb->size  ; i++) {
+			diag_pos[i] = 0;
+			diag_pos[i + cb->size] = 0;
+			conflict_pos[i] = 0;
+			conflict_pos[i + cb->size] = 0;
+			diag_neg[i] = 0;
+			diag_neg[i + cb->size] = 0;
+			conflict_neg[i] = 0;
+			conflict_neg[i + cb->size] = 0;
+
+	}
+
+	void init_diagonal(cb, diag_pos, diag_neg, conflict_pos, conflict_neg); 
 	for (size_t i = 0; i < cb->size; i++) {
 		tablist[i] = NULL;
 	}
