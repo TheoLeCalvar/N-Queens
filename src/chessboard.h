@@ -15,10 +15,10 @@
 
 typedef struct chessboard {
         size_t          size;
-        u32             queens[MAX_QUEENS]; //position of the queen
+        u32*            queens; //position of the queen
 } cb_t;
 
-void    cb_init(cb_t* cb, size_t size);
+void    cb_init(cb_t* cb, size_t size, u32* buff);
 
 void	cb_init_rand(cb_t* cb,size_t size);
 //returns 0 if the chessboard is valid, < 0 if uninitialized, > 0 if invalid
