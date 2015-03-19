@@ -127,17 +127,25 @@ int main(int argc, char** argv) {
         }
 
         if (size <= MAX_QUEENS) {
-                res.queens = queens;
+                cb_init(&res, size, &queens);
         }
+        else {
+                u32 * bf = malloc(size * sizeof(u32));
 
-        cb_init(&res, size);
+                if (!bf) {
+                        log_err("Can't allocate buffer.");
+                        exit(1);
+                }
+
+                cb_init(&res, size, bf);
+        }
 
         if (!res.size) {
                 return 1;
         }
 
         if (algos[algo].func(&res)) {
-                printf("No solution, i'm a sad panda\n");
+                printf("No solution or an error occured, i'm a sad panda\n");
                 return 1;
         }
 

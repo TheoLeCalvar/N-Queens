@@ -3,12 +3,9 @@
 #include <string.h>
 
 
-void    cb_init(cb_t* cb, size_t size) {
+void    cb_init(cb_t* cb, size_t size, u32 * dst) {
         cb->size = size;
-
-        if (size > MAX_QUEENS) {
-                cb->queens = malloc(size * sizeof(u32));
-        }
+        cb->queens = dst;
 
         memset(cb->queens, -1, size * sizeof(u32));
 }
