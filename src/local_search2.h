@@ -3,6 +3,11 @@
 
 #include "chessboard.h"
 
+#define diagp(i, j, size) \
+		(i + j)
+
+#define diagm(i, j, size) \
+		(i - j + size)
 
 int     local_search2(cb_t* cb);
 
