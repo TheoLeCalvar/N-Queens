@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
         }
 
         if (size <= MAX_QUEENS) {
-                cb_init(&res, size, &queens);
+                cb_init(&res, size, queens);
         }
         else {
                 u32 * bf = malloc(size * sizeof(u32));

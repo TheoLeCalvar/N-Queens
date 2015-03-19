@@ -222,7 +222,7 @@ int local_search2(cb_t * cb) {
 	printf("l'initialisation est terminé \n");
 	size_t size = cb->size;
 	srand(time(NULL));
-	List * tablist[cb->size];
+	//List * tablist[cb->size];
 	size_t diag_pos[(size * 2)-1];
 	size_t diag_neg[(size * 2)-1];
 
@@ -248,26 +248,26 @@ int local_search2(cb_t * cb) {
 
 	init_diagonal(cb, diag_pos, diag_neg, conflict_pos, conflict_neg); 
 	//affiche_diag(size,diag_pos);
-	for (size_t i = 0; i < cb->size; i++) {
-		tablist[i] = NULL;
-	}
-	u32 * buf ;
-	buf = malloc(cb->size *sizeof(u32));
-	int c = 0;
-	int c3 = cb_conflicts(cb,buf);
-	c = cb_conflict_list(cb,tablist);
+	//for (size_t i = 0; i < cb->size; i++) {
+	//	tablist[i] = NULL;
+	//}
+	//u32 * buf ;
+	//buf = malloc(cb->size *sizeof(u32));
+	//int c = 0;
+	//int c3 = cb_conflicts(cb,buf);
+	//c = cb_conflict_list(cb,tablist);
 	size_t c2 = nb_conflict(size*2 -1 ,conflict_neg,conflict_pos);
-	cb_print(cb);
-	printf("diagpos \n");
-	affiche_diag(size*2 -1,diag_pos);
-	printf("diagneg \n");
-	affiche_diag(size*2 -1,diag_neg);
-	printf("confli_pos \n");
-	affiche_diag(size*2 -1,conflict_pos);
-	printf("conflig_neg \n");
-	affiche_diag(size*2-1,conflict_neg);
-	if (c != c2)
-		printf("eu probleme mon capitain ? %d , %d  , %d \n",c,c2,c3);
+	//cb_print(cb);
+	//printf("diagpos \n");
+	//affiche_diag(size*2 -1,diag_pos);
+	//printf("diagneg \n");
+	//affiche_diag(size*2 -1,diag_neg);
+	//printf("confli_pos \n");
+	//affiche_diag(size*2 -1,conflict_pos);
+	//printf("conflig_neg \n");
+	//affiche_diag(size*2-1,conflict_neg);
+	//if (c != c2)
+	//	printf("eu probleme mon capitain ? %d , %d  , %d \n",c,c2,c3);
 	/*for (size_t i = 0; i < cb->size; ++i) {
 		printf("colone numero %d \n",i);
 		list_affiche(tablist[i]);
@@ -299,7 +299,7 @@ int local_search2(cb_t * cb) {
 					}
 					else {
 						c2 = ctmp;
-						printf("%d\n",c2);
+						//printf("%d\n",c2);
 
 						
 					}
@@ -313,8 +313,8 @@ int local_search2(cb_t * cb) {
 
 			}
 		}
-		affiche_diag(size*2-1,diag_pos);
-		affiche_diag(size*2-1,diag_neg);
+		//affiche_diag(size*2-1,diag_pos);
+		//affiche_diag(size*2-1,diag_neg);
 		printf("il y a eu %lu swap mon captain \n",swap);
 		
 		//int c1 = cb_conflicts(cb,buf);
