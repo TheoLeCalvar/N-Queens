@@ -199,39 +199,31 @@ typedef struct s_List List;
 	size_t nb_conflict(size_t size, size_t * conflict_neg, size_t * conflict_pos) {
 		return (sum_tab(size,conflict_neg)+sum_tab(size,conflict_pos));
 	}
-	void init_rand2(cb_t * cb, size_t size) {
-		//cb->size = size;
+	void init_rand2(cb_t * cb) {
+		
+		size_t size = cb->size;
 		for (size_t i = 0; i < size; ++i) {
 			cb->queens[i] = -1;
-
 		}
+
+		
 
 		size_t tail = size;
 		//srand(time(NULL));
-		printf("hello 1");
-		size_t tableau_random[size-1];
+		size_t tableau_random[size];
 		for (size_t i = 0 ; i < size ; i++) {
 			tableau_random[i]=i;
-		}
-			
-		printf("hello2");	
+		}	
 		size_t indice = 0;
 		while (indice < size) {
-			printf("ok ");
-			size_t alea = tableau_random[rand()%(tail)];
-			//bool ok = true;
-			//for (int j = 0 ; j < size ; ++j) {
-			//	if (cb->queens[j] == alea) {
-			//		ok = false;
-			//	}
-			//}
-			//if (ok) {
+			size_t rando = rand()%(tail);
+			size_t alea = tableau_random[rando];
 				cb->queens[indice] = alea;
 				//size_t tmp = alea;
-				tableau_random[alea] = tableau_random[tail];
-				--tail;
+				tableau_random[rando] = tableau_random[tail-1];
+				tail--;
 				++indice;
-			//}
+			
 
 		}
 
@@ -251,7 +243,7 @@ int local_search2(cb_t * cb) {
 	//List * list = NULL;
 	printf("l'initialisation a commencé \n");
 	//cb_init_rand(cb,cb->size);
-	init_rand2(cb,cb->size);
+	init_rand2(cb);
 	printf("l'initialisation est terminé \n");
 	
 	srand(time(NULL));
