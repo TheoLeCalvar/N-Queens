@@ -199,28 +199,61 @@ typedef struct s_List List;
 	size_t nb_conflict(size_t size, size_t * conflict_neg, size_t * conflict_pos) {
 		return (sum_tab(size,conflict_neg)+sum_tab(size,conflict_pos));
 	}
+	void init_rand2(cb_t * cb, size_t size) {
+		//cb->size = size;
+		for (size_t i = 0; i < size; ++i) {
+			cb->queens[i] = -1;
 
-	/*void init_conflit(size_t size,const size_t * dp, const size_t * dn, size_t * cp, size_t * cn) {
-		size_t c1 = 0;
-		size_t c2 = 0;
-		for (size_t i = 0 ; i < (size * 2) ; i++) {
-			c1 += diag_pos[i];
-			c2 += diag_neg[i];	
+		}
+
+		size_t tail = size;
+		//srand(time(NULL));
+		printf("hello 1");
+		size_t tableau_random[size-1];
+		for (size_t i = 0 ; i < size ; i++) {
+			tableau_random[i]=i;
+		}
+			
+		printf("hello2");	
+		size_t indice = 0;
+		while (indice < size) {
+			printf("ok ");
+			size_t alea = tableau_random[rand()%(tail)];
+			//bool ok = true;
+			//for (int j = 0 ; j < size ; ++j) {
+			//	if (cb->queens[j] == alea) {
+			//		ok = false;
+			//	}
+			//}
+			//if (ok) {
+				cb->queens[indice] = alea;
+				//size_t tmp = alea;
+				tableau_random[alea] = tableau_random[tail];
+				--tail;
+				++indice;
+			//}
 
 		}
 
 
-	}*/		
+
+
+
+
+	}
+		
+
 
 
 
 int local_search2(cb_t * cb) {
+	size_t size = cb->size;
 	//List * list = NULL;
 	printf("l'initialisation a commencé \n");
-	cb_init_rand(cb,cb->size);
-	//init_test(cb);
+	//cb_init_rand(cb,cb->size);
+	init_rand2(cb,cb->size);
 	printf("l'initialisation est terminé \n");
-	size_t size = cb->size;
+	
 	srand(time(NULL));
 	//List * tablist[cb->size];
 	size_t diag_pos[(size * 2)-1];
