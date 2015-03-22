@@ -12,7 +12,7 @@
         for (size_t i = 0; i < cb->size ; ++i) {
                 for (size_t j = 0; j < cb->size ; ++j) {
                         mc[i][j]=0;
-                
+
                 }
         }
         for (size_t i = 0; i < cb->size ; ++i) {
@@ -23,7 +23,7 @@
 
                 }
 
-        }        
+        }
 
 }*/
 
@@ -32,7 +32,7 @@ int     local_search(cb_t* cb) {
         cb_init_rand(cb,cb->size);
         srand(time(NULL));
         u32 *   buf;
-        double T = 100;
+        // double T = 100;
         //size_t tmp = 0;
         //size_t tmp2 = 0;
         buf = malloc(cb->size * sizeof(u32));
@@ -43,7 +43,7 @@ int     local_search(cb_t* cb) {
                                 if (tmp < buf[i]) {
                                         tmp = buf[i];
                                         tmp2 = i;
-     
+
                                 }
                         }ca put la merde et ralentie le truc */
                         size_t r1 = rand()%(cb->size);
@@ -53,18 +53,18 @@ int     local_search(cb_t* cb) {
 
                                 if (cb_conflicts(cb,buf) > c) {
                                        /* double deltaf = -(cb_conflicts(cb,buf) - c)/T;
-                                        
+
 
                                         if (exp(deltaf) < 0.33)
                                                 T = 0.2 * T;
                                         else*/
                                                 cb_swap(cb,r1,r2);
                                 }
-                                               
+
                         }
-                         
+
                 }
-        return cb_validates(cb);       
+        return cb_validates(cb);
 }
 /*      u32 *   buf_col;
         u32 *   buf_row;
@@ -84,12 +84,12 @@ int     local_search(cb_t* cb) {
         }
 
         while (cb_conflicts(cb, buf_col)) {
-                
+
         }
 
         printf("Found a solution in %zu switchs.\n", try);
         */
-       
+
 
 
 #ifdef TEST
