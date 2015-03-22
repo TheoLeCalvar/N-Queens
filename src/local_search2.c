@@ -206,8 +206,8 @@ typedef struct s_List List;
 
 		size_t tail = cb->size;
 		//srand(time(NULL));
-		size_t *free_col = malloc(cb->size * sizeof(size_t));
-
+		//size_t *free_col = malloc(cb->size * sizeof(size_t));
+		size_t free_col[cb->size];
 		for (size_t i = 0 ; i < cb->size ; i++) {
 			free_col[i]=i;
 		}
@@ -216,22 +216,22 @@ typedef struct s_List List;
 		while (indice < cb->size) {
 			size_t rando = rand()%(tail);
 			size_t alea = free_col[rando];
-			bool ok = true;
-			if (tail > 1000)
-			{
-				for (size_t j = 0 ; j < cb->size/2 ; ++j) {
-					if (abs(j - indice) == abs(cb->queens[j] - alea))
-						ok = false;
-				}
-			}
-			if (ok)
-			{
+			//bool ok = true;
+			//if (tail > 1000)
+			//{
+			//	for (size_t j = 0 ; j < cb->size/2 ; ++j) {
+			//		if (abs(j - indice) == abs(cb->queens[j] - alea))
+			//			ok = false;
+			//	}
+			//}
+			//if (ok)
+			//{
 				cb->queens[indice] = alea;
 				//size_t tmp = alea;
 				free_col[rando] = free_col[tail-1];
 				tail--;
 				++indice;
-			}
+			//}
 		}
 
 
