@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
                         log_err("The solution isn't valid, this should not happen");
         }
         else {
-                log_info("No validation performed, solution may not be valid (but that is unlikely).");
+                log_warn("No validation performed, solution may not be valid (but that is unlikely).");
         }
 
 

@@ -1,7 +1,8 @@
 #include "local_search3.h"
+#include <sys/time.h>
 
 #define MAX_CONFLICTS           100
-#define MAX_CONFLICTS_SIZE      1024
+#define MAX_CONFLICTS_SIZE      512
 
 #define is_threatened(__i, __j) \
                 (diagu[(u32)(__i) + (u32)(__j)] || diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size])
@@ -54,6 +55,9 @@ int     local_search3(cb_t * cb) {
         char    conflict = 0;
         int     n = 0;
 
+        struct timeval before_init, before_solve, end;
+        size_t  init_conflicts = 0;
+
         diagu = calloc(2 * cb->size, sizeof(u32));
         diagd = calloc(2 * cb->size, sizeof(u32));
         free_cols = malloc(cb->size * sizeof(u32));
@@ -70,7 +74,7 @@ int     local_search3(cb_t * cb) {
         for (size_t i = 0; i < cb->size; ++i)
                 free_cols[i] = i;
 
-        time_t before_init = time(NULL);
+        gettimeofday(&before_init, NULL);
 
         //initialize chessboard, we want at most MAX_CONFLICTS conflicting queens
         for (size_t i = 0; i < cb->size; ++i) {
@@ -102,9 +106,8 @@ int     local_search3(cb_t * cb) {
                 } while (conflict);
         }
 
-        time_t before_solve = time(NULL);
-
-        log_info("Initialisation completed, %zu conflicts in %zus", conflict_diagd.nb_set + conflict_diagu.nb_set, before_solve - before_init );
+        gettimeofday(&before_solve, NULL);
+        init_conflicts = conflict_diagu.nb_set + conflict_diagd.nb_set;
 
         //resolution
         do {
@@ -118,25 +121,13 @@ int     local_search3(cb_t * cb) {
 
                                 if (is_attacked(ci, qi) || is_attacked(cj, qj)) {
                                         size_t previous_conflicts = conflict_diagu.nb_set + conflict_diagd.nb_set;
-                                        //
-                                        // remove_queen(ci, qi);
-                                        // remove_queen(cj, qj);
-                                        // place_queen(ci, qj);
-                                        // place_queen(cj, qi);
 
                                         swap(ci, cj, qi, qj);
-
                                         ++n;
 
                                         if (previous_conflicts < conflict_diagu.nb_set + conflict_diagd.nb_set) {
-                                                // printf("Undo swap %u-%u\n", ci, cj);
-                                                // remove_queen(ci, qj);
-                                                // remove_queen(cj, qi);
-                                                // place_queen(ci, qi);
-                                                // place_queen(cj, qj);
 
                                                 swap(ci, cj, qj, qi);
-
                                                 --n;
                                         }
 
@@ -145,7 +136,20 @@ int     local_search3(cb_t * cb) {
                 }
         } while (n !=0 || conflict_diagu.nb_set + conflict_diagd.nb_set);
 
-        log_info("Solved in %zus", time(NULL) - before_solve);
+
+        gettimeofday(&end, NULL);
+
+        log_info("Initialisation completed in %zu.%06ds (%zu conflicts)",
+                        before_solve.tv_sec - before_init.tv_sec - (before_solve.tv_usec - before_init.tv_usec < 0 ? 1 : 0),
+                        (before_solve.tv_usec - before_init.tv_usec < 0 ? 1000000 : 0) + before_solve.tv_usec - before_init.tv_usec,
+                        init_conflicts);
+        log_info("Solved in %zu.%06ds",
+                        end.tv_sec - before_solve.tv_sec - (end.tv_usec - before_solve.tv_usec < 0 ? 1 : 0),
+                        (end.tv_usec - before_solve.tv_usec < 0 ? 1000000 : 0) + end.tv_usec - before_solve.tv_usec);
+
+        log_info("Total time %zu.%06ds",
+                        end.tv_sec - before_init.tv_sec - (end.tv_usec - before_init.tv_usec < 0 ? 1 : 0),
+                        (end.tv_usec - before_init.tv_usec < 0 ? 1000000 : 0) + end.tv_usec - before_init.tv_usec);
 
         free(diagu);
         free(diagd);
