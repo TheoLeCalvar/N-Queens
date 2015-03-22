@@ -215,14 +215,23 @@ typedef struct s_List List;
 		size_t indice = 0;
 		while (indice < cb->size) {
 			size_t rando = rand()%(tail);
-
-			cb->queens[indice] = free_col[rando];
-			//size_t tmp = alea;
-			free_col[rando] = free_col[tail-1];
-			--tail;
-			++indice;
-
-
+			size_t alea = free_col[rando];
+			bool ok = true;
+			if (tail > 1000)
+			{
+				for (size_t j = 0 ; j < cb->size/2 ; ++j) {
+					if (abs(j - indice) == abs(cb->queens[j] - alea))
+						ok = false;
+				}
+			}
+			if (ok)
+			{
+				cb->queens[indice] = alea;
+				//size_t tmp = alea;
+				free_col[rando] = free_col[tail-1];
+				tail--;
+				++indice;
+			}
 		}
 
 
