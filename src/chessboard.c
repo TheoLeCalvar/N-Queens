@@ -66,10 +66,16 @@ int     cb_validates_full(const cb_t* cb) {
         for (size_t i = 0; i < cb->size; ++i) {
                 //si c'est > size (inclus == -1)
                 if (cb->queens[i] >= cb->size) return 1;
-                for (size_t j = i + 1; j < cb->size; ++j)
-                        if (cb->queens[i] == cb->queens[j] ||
-                            abs(cb->queens[i] - cb->queens[j]) == abs(i - j))
+                for (size_t j = i + 1; j < cb->size; ++j) {
+                        if (cb->queens[i] == cb->queens[j]) {
+                                log_err("Queens in same row %zu-%zu", i, j);
                                 return 1;
+                        }
+                        if (abs(cb->queens[i] - cb->queens[j]) == abs(i - j)) {
+                                log_err("Queens in same diagonal %zu-%zu", i, j);
+                                return 1;
+                        }
+                }
         }
 
         return 0;
