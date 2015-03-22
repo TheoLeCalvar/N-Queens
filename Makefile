@@ -13,7 +13,7 @@
 ## Compiler
 CC=clang
 ifdef DEBUG
-CFLAGS=-g -O3 -msse2 -msse3 -DDEBUG -Wall -std=gnu99
+CFLAGS=-g -msse2 -msse3 -DDEBUG -Wall -std=gnu99
 else
 CFLAGS=-O3 -msse2 -msse3 -Wall -std=gnu99
 endif
@@ -36,6 +36,7 @@ tests: test_dir bf.test chessboard.test \
 program: $(TARGET)
 
 $(TARGET): $(DOBJ)/main.o $(DOBJ)/bf.o \
+	   $(DOBJ)/bf_dyn.o $(DOBJ)/local_search3.o \
 	   $(DOBJ)/chessboard.o $(DOBJ)/local_search.o \
 	   $(DOBJ)/forward_checking.o $(DOBJ)/local_search2.o \
 	   $(DOBJ)/wikimethod.o $(DOBJ)/backtrack.o

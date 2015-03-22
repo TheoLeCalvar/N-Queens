@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <string.h>
+#include <time.h>
 
 #include "chessboard.h"
 
 #include "local_search.h"
 #include "local_search2.h"
+#include "local_search3.h"
 #include "wikimethod.h"
 #include "backtrack.h"
 #include "forward_checking.h"
@@ -21,6 +23,7 @@ typedef struct algo {
 
 algo_t algos[] = {
         {"ls",  "local search",         &local_search2},
+        {"lst", "local search 2",       &local_search3},
         {"bt",  "backtrack",            &backtrack},
         {"fw",  "forward checking",     &forward},
         {"bf",  "bruteforce",           NULL},
