@@ -218,12 +218,22 @@ typedef struct s_List List;
 		while (indice < size) {
 			size_t rando = rand()%(tail);
 			size_t alea = tableau_random[rando];
+			bool ok = true;
+			if (tail > 1000)
+			{
+				for (size_t j = 0 ; j < size/2 ; ++j) {
+					if (abs(j - indice) == abs(cb->queens[j] - alea))
+						ok = false;
+				} 
+			}
+			if (ok)
+			{
 				cb->queens[indice] = alea;
 				//size_t tmp = alea;
 				tableau_random[rando] = tableau_random[tail-1];
 				tail--;
 				++indice;
-			
+			}
 
 		}
 
