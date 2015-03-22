@@ -10,22 +10,22 @@
 #define is_attacked(__i, __j) \
                 (diagu[(u32)(__i) + (u32)(__j)] > 1 || diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size] > 1)
 
-#define place_queen(__i, __j)                                                       \
-        ({                                                                      \
-                cb->queens[(__i)] = (__j);                                          \
-                if (++diagu[(u32)(__i) + (u32)(__j)] > 1)                                     \
-                        bf_dyn_set(conflict_diagup, (u32)(__i) + (u32)(__j));                 \
-                if (++diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size] > 1)                          \
-                        bf_dyn_set(conflict_diagdp, (u32)(__i) - (u32)(__j) + (u32)cb->size);      \
+#define place_queen(__i, __j)                                                                   \
+        ({                                                                                      \
+                cb->queens[(__i)] = (__j);                                                      \
+                if (++diagu[(u32)(__i) + (u32)(__j)] > 1)                                       \
+                        bf_dyn_set(conflict_diagup, (u32)(__i) + (u32)(__j));                   \
+                if (++diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size] > 1)                       \
+                        bf_dyn_set(conflict_diagdp, (u32)(__i) - (u32)(__j) + (u32)cb->size);   \
         })
 
 
-#define remove_queen(__i, __j)                                                          \
-        ({                                                                              \
-                if (--diagu[(u32)(__i) + (u32)(__j)] <= 1)                                        \
-                        bf_dyn_unset(conflict_diagup, (u32)(__i) + (u32)(__j));                   \
-                if (--diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size] <= 1)                             \
-                        bf_dyn_unset(conflict_diagdp, (u32)(__i) - (u32)(__j) + (u32)cb->size);        \
+#define remove_queen(__i, __j)                                                                  \
+        ({                                                                                      \
+                if (--diagu[(u32)(__i) + (u32)(__j)] <= 1)                                      \
+                        bf_dyn_unset(conflict_diagup, (u32)(__i) + (u32)(__j));                 \
+                if (--diagd[(u32)(__i) - (u32)(__j) + (u32)cb->size] <= 1)                      \
+                        bf_dyn_unset(conflict_diagdp, (u32)(__i) - (u32)(__j) + (u32)cb->size); \
         })
 
 #define swap(__ci, __cj, __qi, __qj)             \
