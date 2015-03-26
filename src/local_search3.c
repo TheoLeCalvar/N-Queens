@@ -1,7 +1,7 @@
 #include "local_search3.h"
 #include <sys/time.h>
 
-#define MAX_CONFLICTS           100
+#define MAX_CONFLICTS           50
 #define MAX_CONFLICTS_SIZE      512
 
 #define is_threatened(__i, __j) \
@@ -37,8 +37,8 @@
         })
 
 int     local_search3(cb_t * cb) {
-        u32 *   diagu = NULL;
-        u32 *   diagd = NULL;
+        u8 *   diagu = NULL;
+        u8 *   diagd = NULL;
 
         size_t  free_cols_size = cb->size;
         u32 *   free_cols;
@@ -58,8 +58,8 @@ int     local_search3(cb_t * cb) {
         struct timeval before_init, before_solve, end;
         size_t  init_conflicts = 0;
 
-        diagu = calloc(2 * cb->size, sizeof(u32));
-        diagd = calloc(2 * cb->size, sizeof(u32));
+        diagu = calloc(2 * cb->size, sizeof(u8));
+        diagd = calloc(2 * cb->size, sizeof(u8));
         free_cols = malloc(cb->size * sizeof(u32));
 
         bf_dyn_init(&conflict_diagu, 2 * cb->size);
@@ -113,10 +113,10 @@ int     local_search3(cb_t * cb) {
         do {
                 n = 0;
                 for (size_t i = 0; i < conflict_queens_size; ++i) {
-                        for (size_t j = 0; j < conflict_queens_size; ++j) {
+                        for (size_t j = i + 1; j < conflict_queens_size; ++j) {
                                 u32 ci = conflict_queens[i];
-                                u32 qi = cb->queens[ci];
                                 u32 cj = conflict_queens[j];
+                                u32 qi = cb->queens[ci];
                                 u32 qj = cb->queens[cj];
 
                                 if (is_attacked(ci, qi) || is_attacked(cj, qj)) {
