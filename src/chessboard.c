@@ -274,6 +274,14 @@ void    cb_to_img(const cb_t* cb, const char * path) {
         fclose(f);
 }
 
+void cb_to_01(const cb_t* cb) {
+        printf("P1\n%d %d\n", cb->size, cb->size);
+        for (size_t i = 0; i < cb->size; ++i) {
+                for (size_t j = 0; j < cb->size; ++j)
+                        printf("%d", cb->queens[i] != j);
+                printf("\n");
+        }
+}
 
 #ifdef TEST
 

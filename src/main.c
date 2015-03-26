@@ -56,7 +56,7 @@ void    usage() {
                " --help \tdisplay this message\n"
                " --image=path\texport chessboard configuration to bmp image\n"
                " --noprint\tdo not print the solution, printing solution for big number may be very slow\n"
-               " --check\tcheck if the solution is valid, it is slow for big numbers\n"
+               " --nocheck\tdon't check if the solution is valid, it is slow for big numbers\n"
                " --algo=<algo>\tuse specified the algorithm\n"
                " algorithms are:\n");
         algo_help();
@@ -69,6 +69,7 @@ struct option options[] = {
         {"image",       0, NULL, 'i'},
         {"check",       0, NULL, 'c'},
         {"noprint",     0, NULL, 'p'},
+        {"matrix",      0, NULL, 'm'},
         {0,             0, NULL, 0}
 };
 
@@ -78,13 +79,14 @@ int main(int argc, char** argv) {
         char    check = 0;
         char    print = 0;
         char*   path = NULL;
+        char    matrix = 0;
         size_t  size = 0;
         cb_t    res;
         u32     queens[MAX_QUEENS];
 
         srand(time(NULL));
 
-        while ((opt = getopt_long(argc, argv, "a:i:hcp", options, NULL)) >= 0) {
+        while ((opt = getopt_long(argc, argv, "a:i:hcpm", options, NULL)) >= 0) {
 
                 switch (opt) {
                         case 'h':
@@ -110,6 +112,10 @@ int main(int argc, char** argv) {
 
                         case 'p':
                                 print = 1;
+                                break;
+
+                        case 'm':
+                                matrix = 1;
                                 break;
 
                         case '?':
@@ -176,7 +182,7 @@ int main(int argc, char** argv) {
         }
         // cb_display(&res);
 
-        if (check) {
+        if (!check) {
                 if (!cb_validates_full(&res))
                         log_info("The solution is valid.");
                 else
@@ -189,6 +195,10 @@ int main(int argc, char** argv) {
 
         if (path) {
                 cb_to_img(&res, path);
+        }
+
+        if (matrix) {
+                cb_to_01(&res);
         }
 
         return 0;
