@@ -42,7 +42,7 @@
 #define log_warn(_format, ...) \
         ({ \
         if (LOG_LEVEL >= INFO_LEVEL) \
-        log__("warning", stdout, "\033[33m" _format "\033[0m", ##__VA_ARGS__); \
+        log__("warning", stderr, "\033[33m" _format "\033[0m", ##__VA_ARGS__); \
         })
 
 #endif
