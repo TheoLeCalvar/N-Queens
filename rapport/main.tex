@@ -1,0 +1,44 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\renewcommand{\thesection}{\arabic{section}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\VerbatimFootnotes
+
+
+\begin{document}
+
+\include{titlepage}
+
+\tableofcontents
+
+\newpage
+
+% \section{Résumé du projet}
+\include{intro}
+
+% \section{Analyse des besoins}
+\include{analyse}
+
+% \section{Modèle de données}
+\include{mld}
+
+% \section{Maquette du site}
+\include{maquette}
+
+% \section{Technologies envisagées}
+\include{techno}
+
+\end{document}

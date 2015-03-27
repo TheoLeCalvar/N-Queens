@@ -9,3 +9,13 @@ old/
 *.jpg
 *.png
 *.bmp
+
+# Latex spec
+*.log
+*.aux
+*.toc
+*.pdf
+*.eps
+*.ps
+*.dvi
+*.backup
