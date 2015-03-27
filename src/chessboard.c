@@ -240,9 +240,9 @@ void    cb_to_img(const cb_t* cb, const char * path) {
                         unsigned int y=(h-1)-j;
 
 
-                        img[(x+y*w)*3+2] = (cb->queens[x] == h-j) ? 255 : 0;
+                        img[(x+y*w)*3+0] = (cb->queens[x] == h-j) ? 0 : 0;
                         img[(x+y*w)*3+1] = (cb->queens[x] == h-j) ? 255 : 0;
-                        img[(x+y*w)*3+0] = (cb->queens[x] == h-j) ? 255 : 0;
+                        img[(x+y*w)*3+2] = (cb->queens[x] == h-j) ? 0 : 0;
                 }
         }
 

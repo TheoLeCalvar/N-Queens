@@ -54,6 +54,8 @@ int     local_search3(cb_t * cb) {
         size_t  conflict_free = 0;
         char    conflict = 0;
         int     n = 0;
+        int     max_conflicts = 100;
+        size_t  total_swap = 0;
 
         struct timeval before_init, before_solve, end;
         size_t  init_conflicts = 0;
@@ -74,6 +76,25 @@ int     local_search3(cb_t * cb) {
         for (size_t i = 0; i < cb->size; ++i)
                 free_cols[i] = i;
 
+        if (cb->size >= 800000000) {
+                max_conflicts = 100;
+        }
+        else if (cb->size >= 100000) {
+                max_conflicts = 50;
+        }
+        else if (cb->size >= 10000) {
+                max_conflicts = 40;
+        }
+        else if (cb->size >= 1000) {
+                max_conflicts = 30;
+        }
+        else if (cb->size >= 100) {
+                max_conflicts = 20;
+        }
+        else {
+                max_conflicts = 8;
+        }
+
         gettimeofday(&before_init, NULL);
 
         //initialize chessboard, we want at most MAX_CONFLICTS conflicting queens
@@ -82,7 +103,7 @@ int     local_search3(cb_t * cb) {
                         size_t random = rand() % free_cols_size;
 
                         conflict = is_threatened(i, free_cols[random]);
-                        if (conflict_free < cb->size - MAX_CONFLICTS) {
+                        if (conflict_free < cb->size - max_conflicts) {
                                 if (!conflict) {
                                         place_queen(i, free_cols[random]);
                                         free_cols[random] = free_cols[--free_cols_size];
@@ -134,6 +155,7 @@ int     local_search3(cb_t * cb) {
                                 }
                         }
                 }
+                total_swap += n;
         } while (n !=0 || conflict_diagu.nb_set + conflict_diagd.nb_set);
 
 
@@ -150,6 +172,8 @@ int     local_search3(cb_t * cb) {
         log_info("Total time %zu.%06ds",
                         end.tv_sec - before_init.tv_sec - (end.tv_usec - before_init.tv_usec < 0 ? 1 : 0),
                         (end.tv_usec - before_init.tv_usec < 0 ? 1000000 : 0) + end.tv_usec - before_init.tv_usec);
+
+        log_info("%zu swaps done.", total_swap);
 
         free(diagu);
         free(diagd);
