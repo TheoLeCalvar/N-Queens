@@ -38,14 +38,14 @@
 \begin{frame}
 
 	\begin{block}{Introduction}
-	
+
 	\begin{itemize}
 		\item{Probleme N-Dames}
 
 		\item{structure de données}
 
 		\item{les différents algorithme}
-		
+
 		\item{résultats et performance}
 	\end{itemize}
 
@@ -58,8 +58,10 @@
 
 
 	\begin{block}{representation de l échiquier}
-		\item {tabeau à une dimension}
-		\item {tableau de diagonale pour la recherche local}
+		\begin{itemize}
+			\item{tabeau à une dimension}
+			\item{tableau de diagonale pour la recherche local}
+		\end{itemize}
 	\end{block}
 
 
@@ -77,7 +79,7 @@
 
 	\begin{block}{Forward checking}
 		On place nos dames sur l'échiquier et à chaque dame placé on diminue l'espace ou l'on poura placé nos futurs dames \\
-		\includegraphics[width=1\textwidth]{images/forw.gif}\hss}  
+		\includegraphics[width=1\textwidth]{images/forw.png}
 	\end{block}
 
 \end{frame}
@@ -86,16 +88,16 @@
 \section{Algorithme de recherche local}
 \begin{frame}
 	\frametitle{Algorithme}
-	
+
 	\begin{block}{1er algorithme de recherche local}
 		On dispose les dames sur l'échiquier et on éffectue des transposition entre le dames pour diminué les conflits
 	\end{block}
-	
+
 	\begin{block}{2nd algorithme de recherche local}
-		On initialise les dames sur l'échiquier de maniere à n'avoir que 100 dames en conflits aux total puis on diminue le nombre de dames en conflit avec des transposition entre elles.  
+		On initialise les dames sur l'échiquier de maniere à n'avoir que 100 dames en conflits aux total puis on diminue le nombre de dames en conflit avec des transposition entre elles.
 	\end{block}
-	
-	
+
+
 \end{frame}
 
 \section{Resultat et performance}
@@ -103,24 +105,24 @@
 	\frametitle{Resultat et performance}
 
 	\begin{block}{Backtrack}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_bt_i7.png}
-	
+
 	\end{block}
-	
+
 	\begin{block}{Forward}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_fw_i7.png}
-	
+
 	\end{block}
-	
+
 	\begin{block}{backtrack vs Forward}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_bt_fw_i7.png}
-	
+
 	\end{block}
-	
-	
+
+
 
 \end{frame}
 
@@ -129,41 +131,41 @@
 	\frametitle{Resultat et performance}
 
 	\begin{block}{recherche local}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_ls_i7.png}
-	
+
 	\end{block}
-	
+
 	\begin{block}{recherche local amélioré}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_lst_i7.png}
-	
+
 	\end{block}
-	
+
 	\begin{block}{comparaison}
-	
+
 	\includegraphics[width=1\textwidth]{images/plot_lst_ls_i7.png}
-	
+
 	\end{block}
-	
-	
+
+
 
 \end{frame}
 
 \section{Conclusion}
 \begin{frame}
 	\frametitle{Conclusion}
-	
+
 	\begin{block}{structure de données}
-		
-		
+
+
 	\end{block}
-	
+
 	\begin{block}{recherche local > Forward}
 		Pour finir on remarque que lorsque on veut effectué le problème de n dames sur de grandes instances il faut utilisé de la recherche local.
 	\end{block}
-	
-	
+
+
 \end{frame}
 
 
