@@ -27,13 +27,37 @@
 \newpage
 
 % \section{Résumé du projet}
-\include{intro}
+\section{Résumé du projet}
+
+Le problème des N-Dames est un extension du problème des 8 dames, son but est de placer 8 dames d'un jeu d'échec sur un échiquier de façon à ce qu'aucune ne soit menacée.
+Pour notre problème nous ne considérons non plus un échiquier de $8*8$ cases mais sur un échiquier arbitrairement grand. On peut démontrer que pour tout $n >= 4$ il existe au moins une solution.
+
+Dans ce rapport nous présenterons les algorithmes et les structures mis en place pour résoudre l'approche programmation par contrainte de ce problème.
+
+Ce projet a été développé en C car ce langage nous permetait un contrôle fin de la mémoire, point particulièrement important.
+A cause du fait que nous voulions avoir un programme proposant des algorithmes de résolutions utilisant la programmation par contrainte et la recherche locale nous avons dû mettre en place une structure de données commune.
+Nous avons mis en place deux algorithmes, le backtracking et le forward checking.
+
 
 % \section{structure de données}
-\include{structure}
+\section{Structure de données}
+
+Pour representer un échiquier nous avons décider d'utiliser un tableau a une dimension où chaque case représente l'emplacement d'une dame.
+Ainsi l'indice du tableau correspond à la colonne de l'échiquier et la valeurs correspondant à la ligne.
+Il est possible d'intervertir la significations des indices et des valeurs, les deux solutions représentent deux échiquiers symétriques par la diagonale.
+Cette représentation présente l'immense avantage d'éliminer par construction les conflits sur les lignes et les colonnes (si on fait attention à ne pas introduire deux fois la même valeur dans le tableau),
+limitant donc les conflits aux diagonales.
+
+De plus, parce que chaque méthode de résolution nécessitait des informations complémentaires (gestion des domaines de valeurs pour le forward checking, maintient des conflits pour la recherche locale),
+nous avons choisi de réduire la structure d'échiquier à son strict minimum et que chaque méthode apporterait ses structures complémentaires.
+
+Ainsi le forward checking utilise un tableau de bitsets pour représenter les domaines, le backtracking lui tient juste à jour un bitset contenant les lignes disponibles.
+
 
 % \section{backtrack}
-\include{backtrack}
+\section{Backtracing}
+
+Le backtracking est un algorithme générique 
 
 % \section{forward checking}
 \include{forward}
