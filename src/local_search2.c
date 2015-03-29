@@ -1,5 +1,4 @@
 #include "local_search2.h"
-#include <time.h>
 
 #define diagp(i, j, size) \
 		(i + j)
@@ -124,6 +123,7 @@ int local_search2(cb_t * cb) {
 
 	init_diagonal(cb, diag_pos, diag_neg, conflict_pos, conflict_neg);
 
+
 	size_t c2 = nb_conflict(size*2 -1 ,conflict_neg,conflict_pos);
 
 	unsigned long int swap =0;
@@ -161,7 +161,6 @@ int local_search2(cb_t * cb) {
 	free(diag_neg);
 	free(conflict_pos);
 	free(conflict_neg);
-
 
 	return 0;
 
