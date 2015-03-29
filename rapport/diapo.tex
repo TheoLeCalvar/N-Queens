@@ -16,9 +16,6 @@
 
 \usetheme{CambridgeUS}
 
-\definecolor{monRouge}{RGB}{204,0,0}
-\setbeamercolor{block body alerted}{fg=white,bg=monRouge}
-
 \setbeamertemplate{navigation symbols}{}
 
 \author{\textsc{Frémont} Alexandre et \textsc{Le Calvar} Théo}
@@ -53,12 +50,9 @@
 \begin{frame}
 
 	\begin{block}{Introduction}
-
-	\begin{itemize}
-		\item{Probleme N-Dames}
-
-		\item{Les différentes approches}
-	\end{itemize}
+	Le problème des N-Dames est une extension du problème des 8 dames, son
+	but est de placer 8 dames d’un jeu d’échecs sur un échiquier de façon à ce
+	qu’aucune ne soit menacée.
 
 	\end{block}
 
@@ -67,14 +61,17 @@
 \section{Structure de données}
 \begin{frame}[fragile]
 	\frametitle{Structure de données}
-	\begin{block}{Code}
-		\begin{lstlisting}
-			typedef struct chessboard {
-				size_t          size;
-				u32*            queens;
-			} cb_t;
-		\end{lstlisting}
-
+	\begin{block}{Une structure adaptée}
+		\begin{itemize}
+			\item Code
+				\begin{lstlisting}
+					typedef struct chessboard {
+						size_t          size;
+						u32*            queens;
+					} cb_t;
+				\end{lstlisting}
+			\item 	De plus, chaque algorithme apporte ses structures spécialisées.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
@@ -98,85 +95,82 @@
 
 \section{Algorithme de recherche local}
 \begin{frame}
-	\frametitle{Algorithme}
+	\frametitle{Algorithme de recherche locale}
 
 	\begin{block}{1er algorithme de recherche local}
-		On dispose les dames sur l'échiquier et on éffectue des transposition entre le dames pour diminué les conflits
+		\begin{itemize}
+			\item{initialisation}
+			\item{transposition entre les dames en conflits seulement}
+			\item{descente stricte}
+		\end{itemize}
 	\end{block}
 
 	\begin{block}{2nd algorithme de recherche local}
-		On initialise les dames sur l'échiquier de maniere à n'avoir que 100 dames en conflits aux total puis on diminue le nombre de dames en conflit avec des transposition entre elles.
-	\end{block}
-
-
-\end{frame}
-
-\section{Resultat et performance}
-\begin{frame}
-	\frametitle{Resultat et performance}
-
-	\begin{block}{Backtrack}
-
-	\includegraphics[width=0.3\textwidth]{images/plot_bt_i7.png}
-
-	\end{block}
-
-	\begin{block}{Forward}
-
-	\includegraphics[width=0.3\textwidth]{images/plot_fw_i7.png}
-
-	\end{block}
-
-	\begin{block}{backtrack vs Forward}
-
-	\includegraphics[width=0.3\textwidth]{images/plot_bt_fw_i7.png}
-
+		\begin{itemize}
+		      \item{initialisation avec un nombre réduit de conflits}
+		      \item{transposition entre les dames en conflits seulement}
+		      \item{descente stricte}
+	      \end{itemize}
 	\end{block}
 
 
 
 \end{frame}
 
-\section{Resultat et performance}
+\section{Resultats et performance}
 \begin{frame}
-	\frametitle{Resultat et performance}
+	\frametitle{Backtracking}
 
-	\begin{block}{recherche local}
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_bt_i7.png}
 
-	\includegraphics[width=0.3\textwidth]{images/plot_ls_i7.png}
+\end{frame}
 
-	\end{block}
+\begin{frame}
+	\frametitle{Forward Checking}
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_fw_i7.png}
 
-	\begin{block}{recherche local amélioré}
+\end{frame}
 
-	\includegraphics[width=0.3\textwidth]{images/plot_lst_i7.png}
+\begin{frame}
+	\frametitle{Comparaison backtracking-forward checking}
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_bt_fw_i7.png}
+\end{frame}
 
-	\end{block}
+\begin{frame}
+	\frametitle{Local search 1}
 
-	\begin{block}{comparaison}
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_ls_i7.png}
+\end{frame}
 
-	\includegraphics[width=0.3\textwidth]{images/plot_lst_ls_i7.png}
+\begin{frame}
+	\frametitle{Local Search 2}
 
-	\end{block}
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_lst_i7.png}
+\end{frame}
 
+\begin{frame}
+	\frametitle{Comparaison local search 1 \& 2}
 
-
+	\hspace{0.8cm} \includegraphics[height=0.9\textheight]{images/plot_lst_ls_i7.png}
 \end{frame}
 
 \section{Conclusion}
 \begin{frame}
 	\frametitle{Conclusion}
 
-	\begin{block}{structure de données}
-
+	\begin{block}{Avantages et inconvenients}
+	      \begin{itemize}
+			\item{Backtracking et Forward Checking, un résultat certain mais sans certitude d'un temps d'exécution raisonnable.\footnote{\textit{Deep Thought} et ses 7.5 millions d'années.}}
+			\item{Methode de recherche local, résultat statistiquement incertain mais sûr dans la pratique, temps raisonnable.}
+	      \end{itemize}
 
 	\end{block}
+\end{frame}
 
-	\begin{block}{recherche local > Forward}
-		Pour finir on remarque que lorsque on veut effectué le problème de n dames sur de grandes instances il faut utilisé de la recherche local.
-	\end{block}
+\begin{frame}
+	\frametitle{Bonus}
 
-
+	Visualisation de solutions.
 \end{frame}
 
 
