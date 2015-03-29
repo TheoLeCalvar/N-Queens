@@ -1,0 +1,12 @@
+\section{la recherche local}
+
+Pour la recherche local nous avons mis en place deux algoritme de descente strict.
+Dans notre premier algoritme on place les reines sur l'échiquier de maniere aleatoire , en évitant les conflict de reines entre les lignes et les colonnes, donc les reines ne peuvent être en conflit que avec d'autres reines qui sont sur les mêmes diagonales.
+Ensuite nous avons crées une structure de donnée pour retenir le positionnement des reines sur les diagonales. %pseudo code ?
+Par la suite notre algoritme calcul le nombre de conflit qu'il y a dans l'échiquier pour chaque diagonales et en fait la somme, Apres cela l'algoritme selection au hasard une reine en conflict avec une autre reines et effectue un swap (echange de position entre les reines) avec une autre reine selection aléatoirement, une fois le swap effectué le programme vérifie que le nouveaux nombre de conflit calculé est égal ou inférieur au précedent nombre de conflit puis il recommence jusqu'a ce que le nombre de conflit soit nul, si le nombre de conflit generé par le swap est supérieur à l'ancien dans ce cas on annule le swap et l'algorithme continue.  
+%pseudo code
+
+\vspace{0.5cm}
+Notre second algorithme de recherche local reprend les base du premier mais il utilise un systeme de bitset pour retenir les diagonales et les conflits des diagonales se systeme est plus rapide que les simples tableau normale. Ensuite à l'initialisation des diagonales on fait en sorte de placer tout les reines en ne laisant que 100 conflits entre les reines au niveau des diagonales.
+Enfin l'algorithme effectue des swap pour réduire le nombre de conflit dans l'échiquier de la meme maniere que dans le premier algorithme.
+
