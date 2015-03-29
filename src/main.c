@@ -6,7 +6,6 @@
 
 #include "chessboard.h"
 
-#include "local_search.h"
 #include "local_search2.h"
 #include "local_search3.h"
 #include "wikimethod.h"

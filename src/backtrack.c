@@ -1,9 +1,8 @@
 #include "backtrack.h"
 
-//amélioration possible, pour la ligne, réduire les valeurs possible en supprimant les
-//valeur dans les diagonales des reines précédentes
+
 extern int bt_rec(cb_t* cb, size_t col, bf_t* rows) {
-        //weare not at the end, now we have to select where to place the colth queens
+        //we are not at the end, now we have to select where to place the colth queens
         if (col < cb->size) {
                 bf_t    available;
                 size_t  queen_place = -1;
@@ -26,8 +25,6 @@ extern int bt_rec(cb_t* cb, size_t col, bf_t* rows) {
                         //we place the queen in the first available slot
                         cb->queens[col] = queen_place;
                         bf_unset(rows->field, queen_place);
-
-                        // cb_print(cb);
 
                         //if the temp construction is valid we propagate it
                         //and if we found a solution, propagate the return

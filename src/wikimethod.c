@@ -7,21 +7,16 @@ int wiki_method(cb_t * cb)
 	size_t y = 0;
 
 	size_t i = 1;
-		for (; i <= n/2 ; i++, k += 2) {
-			cb->queens[i-1] =  k;
-			//printf("%d",i );
-		}	
-		for (; i <= n; i++, y += 2) {
-			//printf("%d, %d\n", i, k);
-			cb->queens[i-1] = y;
-		}
-	//if((n % 6) != 2 && (n % 6) != 3) {}
-	
+	for (; i <= n/2 ; i++, k += 2) {
+		cb->queens[i-1] =  k;
+	}
+	for (; i <= n; i++, y += 2) {
+		cb->queens[i-1] = y;
+	}
 
-		
+
+
 	if ((n % 6) == 2) {
-
-
 		for (size_t i = 0; i < n; i++) {
 			if (cb->queens[i] == 0)
 				cb->queens[i] = 2;
@@ -33,11 +28,9 @@ int wiki_method(cb_t * cb)
 				}
 				cb->queens[n-1] = 4;
 			}
-			
-			
+
+
 		}
-		//for (size_t i = 0; i < n; i++)
-		//printf("%d ", cb->queens[i]+1);
 
 	}
 	if ((n % 6) == 3) {
@@ -52,25 +45,17 @@ int wiki_method(cb_t * cb)
 				for (size_t j = i; j < n-1; j++) {
 					cb->queens[j] = cb->queens[j+1];
 				}
-				//cb->queens[n-1] = 2;
 			}
 			else if (cb->queens[i] == 0) {
 				for (size_t j = i; j < n-1; j++) {
 					cb->queens[j] = cb->queens[j+1];
 				}
-				//cb->queens[n-1] = 0;
 			}
 		}
 		cb->queens[n-2] = 0;
 		cb->queens[n-1] = 2;
-		//for (size_t i = 0; i < n; i++)
-		//printf("%d ", cb->queens[i]+1);
+	}
 
-	}	
-
-
-
-	//cb_print(cb);
 	return cb_validates(cb);
 
 }
@@ -79,7 +64,7 @@ int wiki_method(cb_t * cb)
 int main(int argc, char** argv) {
 		cb_t 	cb8,cb28,cb32,cb33;
 		cb_init(&cb8, 8);
-		
+
 		TEST_ASSERT("check cb_validate (1)", wiki_method(&cb8) == 0);
 		cb_init(&cb28,28);
 		TEST_ASSERT("check cb_validate (2) n mod 6 != 2 && != 3", wiki_method(&cb28) == 0);
@@ -88,5 +73,5 @@ int main(int argc, char** argv) {
 		cb_init(&cb33,33);
 		TEST_ASSERT("check cb_validate (4) n mod 6 = 3", wiki_method(&cb33) == 0);
 		return 0;
-} 
+}
 #endif

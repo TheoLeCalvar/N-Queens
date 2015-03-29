@@ -1,13 +1,5 @@
 #include "forward_checking.h"
 
-//a terme, adapter chessboard, proposer un bt_t[MAXQ_QUEENS], et pour chaque reine placée
-//mettre à jour les autres en modifiant les domaines
-
-//problème, il faudra trouver un moyen de garder les différences entre les domaines
-
-
-//amélioration possible, pour la ligne, réduire les valeurs possible en supprimant les
-//valeur dans les diagonales des reines précédentes
 extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
         ++*calls;
         //weare not at the end, now we have to select where to place the colth queens
@@ -29,9 +21,6 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
                         //we place the queen in the first available row
                         cb->queens[col] = queen_place;
 
-                        // printf("We are in (%zu, %zu) - ", col, queen_place);
-                        // bf_print(&domains[col], cb->size);
-
                         //we update the domains of unplaced queens
                         for (delta_size = 0; delta_size < cb->size; ++delta_size) {
 
@@ -40,7 +29,6 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
                                 if (cb->queens[delta_size] != -1)
                                         continue;
 
-                                //UPDATE, utiliser 0x01, 0x02, 0x04 et 0x08 !!!
                                 if (bf_get(domains[delta_size].field, queen_place)) {
                                         delta[delta_size] |= ROW_MASK;
                                         bf_unset(domains[delta_size].field, queen_place);
@@ -51,18 +39,14 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
                                     ) {
                                         delta[delta_size] |= DIAG1_MASK;
                                         bf_unset(domains[delta_size].field, queen_place + (col - delta_size));
-                                        // printf("We are in (%zu,%zu) and we unset (%zu, %zu)\n", col, queen_place, delta_size, queen_place + (col - delta_size));
                                 }
-                                //POIURQUOI ÇA FAIT CRASH LE PROGRAMME SUR CERTAINES VALEURS !?8?88?
+
                                 if (queen_place - (col - delta_size) < cb->size &&
                                     bf_get(domains[delta_size].field, queen_place - (col - delta_size))
                                     ) {
                                         delta[delta_size] |= DIAG2_MASK;
                                         bf_unset(domains[delta_size].field, queen_place - (col - delta_size));
-                                        // printf("We are in (%zu,%zu) and we unset (%zu, %zu)\n", col, queen_place, delta_size, queen_place - (col - delta_size));
                                 }
-
-                                // bf_print(&domains[delta_size], cb->size);
 
                                 tmp_count = bf_count(&domains[delta_size]);
 
@@ -82,7 +66,6 @@ extern int fw_rec(cb_t* cb, bf_t* domains, size_t col, size_t * calls) {
                         if (!fw_rec(cb, domains, min_dom, calls))
                                 return 0;
 
-                        // printf("Back from recursion (%zu, %zu)\n", col, queen_place);
 
 restore:
                         //else we have to undo what we have done and try the next place
@@ -104,7 +87,6 @@ restore:
                         }
 
                 }
-                // printf("Backtrack (%zu)\n", col);
                 return 1;
 
         }

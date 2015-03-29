@@ -156,25 +156,6 @@ simple:
 
         return (size_t) -1;
 }
-// size_t  bf_dyn_count(const bf_dyn_t* bf) {
-//         size_t count = 0;
-//         int i = 0;
-//         while (i < bf->nb_chunk && bf->bf[i] == 0) {
-//                 i++;
-//         }
-// #ifdef __x86_64__
-//         while (i < bf->nb_chunk) {
-//                 count += __builtin_popcountl(bf->bf[i]);
-//                 i++;
-//         }
-// #else
-//         while (i < bf->nb_chunk) {
-//                 count += __builtin_popcount(bf->bf[i]);
-//                 i++;
-//         }
-// #endif
-//         return count;
-// }
 
 size_t  bf_dyn_count(const bf_dyn_t* bf) {
         return bf->nb_set;
