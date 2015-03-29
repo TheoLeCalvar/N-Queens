@@ -51,17 +51,17 @@ Il est possible d'intervertir la signification des indices et des valeurs, les d
 Cette représentation présente l'immense avantage d'éliminer par construction les conflits sur les lignes et les colonnes (si l’on fait attention à ne pas introduire deux fois la même valeur dans le tableau),
 limitant donc les conflits aux diagonales.
 
-De plus, parce que chaque méthode de résolution nécessitait des informations complémentaires (gestion des domaines de valeurs pour le forward checking, maintien des conflits pour la recherche locale),
+De plus, parce que chaque méthode de résolution nécessitait des informations complémentaires (gestion des domaines de valeurs pour le forward checking, maintient des conflits pour la recherche locale),
 nous avons choisi de réduire la structure d'échiquier à son strict minimum et que chaque méthode apporterait ses structures complémentaires.
 
-Ainsi le forward checking utilise un tableau de bitsets pour représenter les domaines, le backtracking lui tient juste à jour un bitset contenant les lignes disponibles.
+Ainsi le forward checking utilise un tableau de bitsets pour représenter les domaines, le backtracking lui, tient juste à jour un bitset contenant les lignes disponibles.
 
 
 % \section{backtrack}
-\section{Backtracing}
+\section{Backtracking}
 
-Le backtracking est un algorithme récursif générique. Son principe est simple est de parcourir l'espace de recherche grâce à un arbre.
-Cet algorithme présente l'avantage d'être simple à mettre en place sur des problèmes comme celui des N-Dames ou la résolution de grille de sudoku, cependant comme nous le verrons a l'inconvénient d'être assez peu performant.
+Le backtracking est un algorithme récursif générique. Son principe est de parcourir l'espace de recherche grâce à un arbre.
+Cet algorithme présente l'avantage d'être simple à mettre en place sur des problèmes comme celui des N-Dames ou la résolution de grille de sudoku, cependant comme nous le verrons, il a l'inconvénient d'être assez peu performant.
 
 L'idée globale est de tester toutes les branches de l'arbre, mais de s'arrêter dès qu'un noeud mène à une instanciation partielle qui ne peut être valide (dames en conflits pour notre problème).
 Grâce à cela, de nombreuses configurations ne sont pas testées, ce qui réduit l'espace de recherche.
@@ -74,7 +74,7 @@ Grâce à cela nous obtenons des résultats corrects.
 
 Notre algorithme résout les échiquiers de tailles $n <= 28$ en moins d'une seconde. Après on remarque la brusque augmentation du temps due à l'explosion de la taille de l'espace de recherche.
 On remarque aussi un schéma, les tailles impaires sont globalement bien plus rapides à calculer que les tailles paires. En effet, sur les tailles paires la première solution est assez éloignée de la configuration en cavalier.
-Ceci n'est pas visible sur le graphique, mais on remarque aussi certaines tailles pour lesquelles l’exécution particulièrement longue ($36$ et $40$).
+Ceci n'est pas visible sur le graphique, mais on remarque aussi certaines tailles pour lesquelles l’exécution est particulièrement longue ($36$ et $40$).
 On pourra se reporter à ce \url{http://queens.cspea.co.uk/csp-q-allplaced.html} qui liste le nombre de solutions testées avant de trouver la première configuration valide.
 
 Après réflexion il nous semblait peu pertinent d'implémenter les algorithmes d'Arc Consistency, en effet, ceux-ci sont sont contre performant dans le cas du problème des N-Dames, les contraintes du problème sont des
