@@ -38,16 +38,9 @@
 \begin{frame}
 
 	\begin{block}{Introduction}
-
-	\begin{itemize}
-		\item{Probleme N-Dames}
-
-		\item{structure de données}
-
-		\item{les différents algorithme}
-
-		\item{résultats et performance}
-	\end{itemize}
+	Le problème des N-Dames est une extension du problème des 8 dames, son
+	but est de placer 8 dames d’un jeu d’échecs sur un échiquier de façon à ce
+	qu’aucune ne soit menacée.
 
 	\end{block}
 
@@ -57,9 +50,10 @@
 \begin{frame}
 
 
-	\begin{block}{representation de l échiquier}
+	\begin{block}{Representation de l échiquier}
 		\begin{itemize}
 			\item{tabeau à une dimension}
+			\item{tableau des domaines pour le foward checking}
 			\item{tableau de diagonale pour la recherche local}
 		\end{itemize}
 	\end{block}
@@ -90,11 +84,20 @@
 	\frametitle{Algorithme}
 
 	\begin{block}{1er algorithme de recherche local}
-		On dispose les dames sur l'échiquier et on éffectue des transposition entre le dames pour diminué les conflits
+		\begin{itemize}
+			\item{initialisation}
+			\item{transposition entre les dames}
+			\item{descente stricte}
+		\end{itemize}
 	\end{block}
 
 	\begin{block}{2nd algorithme de recherche local}
-		On initialise les dames sur l'échiquier de maniere à n'avoir que 100 dames en conflits aux total puis on diminue le nombre de dames en conflit avec des transposition entre elles.
+		\begin{itemize}
+		      \item{initialisation a 100 conflits}
+		      \item{transposition entre les dames}
+		      \item{descente stricte}
+		      \item{reset si bloqué}
+	      \end{itemize}
 	\end{block}
 
 
@@ -156,13 +159,14 @@
 \begin{frame}
 	\frametitle{Conclusion}
 
-	\begin{block}{structure de données}
-
-
-	\end{block}
-
-	\begin{block}{recherche local > Forward}
-		Pour finir on remarque que lorsque on veut effectué le problème de n dames sur de grandes instances il faut utilisé de la recherche local.
+	\begin{block}{avantage et inconvenient}
+	      \begin{itemize}
+		      \item{backtrack et forward checking certitude de l'obtention d'un résultat}
+		      \item{mais au bout de combien de temps}
+		      \item{methode de recheche local pas sur d'aboutir}
+		      \item{mais s'effectue très rapidement}
+	      \end{itemize}
+		
 	\end{block}
 
 
