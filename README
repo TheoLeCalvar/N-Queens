@@ -1,32 +1,29 @@
 Readme
+Frémont Alexandre
+Le Calvar Théo
 
-En binome
+comment utilisé le programe
+make pour compiler (compile avec clang)
+make clean
 
-Une partie sur recherche locale, une autre sur la programmation par contrainte
+./n-dames -a [nom-algo] [nb de dame] [-p] [-c]
 
-A remettre la semaine d'avant les stages
+alors -a [nom-algo] pour choisir l'algo a utiliser entre :
+"ls" pour  "local search"
+"lst" pour "local search amelioré"    
+"bt" pour  "backtrack"          
+"fw" pour "forward checking"
+"wk" pour "wiki methode " (methode trouve sur wikipedia qui place les dame en fonction du modulo de la taille)
 
-A rendre :
-        - petit rapport (5-6 pages), sur ce qui a été implémenté
-        - code
-        - présentation avec diapos + démo rapide (10 min maximum)
 
-Partie Hao :
-        - n-reines
-        - développer un solveur des n-reines en PPC n*n
-                - algorithmes : BT chronologique, AC avant BT, Forward Checking, MAC
-                - heuristique : par défaut, min domain, aléatoire/dichotomique
-                - expérimentations : mesurer le temps de calcul en fonction de la taille, mesurer le nombre de noeud de l'arbre
+de base si vous faite
+./n-dames [nb-dame] il utilisera le ls 
 
-http://queens.cspea.co.uk/csp-q-allplaced.html
+les option -p et -c
+si vous metter -p cela va couper l'affichage de la solution
+si cous metter -c cela va vérifier la solution calculé cela peut prendre du temps selon 
+le nombre de dame ( apres 100 000 le temps explose).
 
-30: 12.04user 0.06system 0:12.14elapsed 99%CPU (0avgtext+0avgdata 15024128maxresident)k
-31: 2.93user 0.02system 0:02.96elapsed 99%CPU (0avgtext+0avgdata 15106048maxresident)k
-32: 20.29user 0.10system 0:20.44elapsed 99%CPU (0avgtext+0avgdata 14991360maxresident)k
-33: 34.86user 0.18system 0:35.13elapsed 99%CPU (0avgtext+0avgdata 14958592maxresident)k
-34: 592.95user 2.88system 9:56.68elapsed 99%CPU (0avgtext+0avgdata 15056896maxresident)k
-35: 60.75user 0.28system 1:01.20elapsed 99%CPU (0avgtext+0avgdata 15040512maxresident)k
-36: ±1h40
-37: 297.72user 1.39system 4:59.80elapsed 99%CPU (0avgtext+0avgdata 14876672maxresident)k
-38: ±1h20
-39: ±50min
+exemple :
+./n-dames -a fw 21 -c
+utilise l'algo forward checking sur un echiquier de 21*21 avec une verification de la solution
