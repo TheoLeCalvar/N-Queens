@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{beamer}
+\documentclass[9pt,a4paper]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
@@ -7,22 +7,38 @@
 \usepackage{amssymb}
 \usepackage{makeidx}
 \usepackage{graphicx}
-\usepackage{datetime}
+
 \usepackage{color}
+
+\usepackage{listings}
+
 \mode<presentation>
 
-\usetheme{Warsaw}
-\newdate{date}{11}{06}{2014}
+\usetheme{CambridgeUS}
 
 \definecolor{monRouge}{RGB}{204,0,0}
 \setbeamercolor{block body alerted}{fg=white,bg=monRouge}
 
-\author{Frémont Alexandre et Le Calvar Théo}
-\title{probleme des n-dames}
-\date{\displaydate{date}}
-%\institute{\includegraphics[width=0.3\textwidth]{images/ua_h_couleur.jpg}}
+\setbeamertemplate{navigation symbols}{}
+
+\author{\textsc{Frémont} Alexandre et \textsc{Le Calvar} Théo}
+\title{Problème des N-Dames}
 
 \begin{document}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+\lstset{style=customc}
 
 \begin{frame}
 \titlepage
@@ -30,8 +46,7 @@
 
 \begin{frame}
 	\frametitle{Plan}
-	\tableofcontents[pausesections]
-
+	\tableofcontents
 \end{frame}
 
 \section{Introduction}
@@ -42,34 +57,30 @@
 	\begin{itemize}
 		\item{Probleme N-Dames}
 
-		\item{structure de données}
-
-		\item{les différents algorithme}
-
-		\item{résultats et performance}
+		\item{Les différentes approches}
 	\end{itemize}
 
 	\end{block}
 
 \end{frame}
 
-\section{structure de données}
-\begin{frame}
+\section{Structure de données}
+\begin{frame}[fragile]
+	\frametitle{Structure de données}
+	\begin{block}{Code}
+		\begin{lstlisting}
+			typedef struct chessboard {
+				size_t          size;
+				u32*            queens;
+			} cb_t;
+		\end{lstlisting}
 
-
-	\begin{block}{representation de l échiquier}
-		\begin{itemize}
-			\item{tabeau à une dimension}
-			\item{tableau de diagonale pour la recherche local}
-		\end{itemize}
 	\end{block}
-
-
 \end{frame}
 
-\section{Algorithme}
+\section{Algorithme CSP}
 \begin{frame}
-	\frametitle{Algorithme}
+	\frametitle{Algorithmes CSP}
 
 	\begin{block}{Backtracking}
 		On construit l'échiquier par étape, lorsque une iteration viole une contrainte on retourne en arrière et on change l'itération.
